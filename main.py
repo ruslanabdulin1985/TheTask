@@ -1,17 +1,10 @@
-import time
-from threading import Thread
-from threading import main_thread
-
 from flask import Flask, render_template
-from flask_restful import Resource, Api
-from flask_restful import reqparse
-from flask import request
-from controller.games import Games
+from model.games import Games
 
 
 app = Flask(__name__)
 
-set_of_games = Games()
+games = Games()
 
 # api = Api(app)
 

@@ -1,7 +1,12 @@
 from model.player import Player
+from model.coordinates import Coordinates
 
 class Game:
-    def __init__(self, id: int):
+    def __init__(self, id: int, player1:Player, player2:Player):
         self.id = id
-        self.player1 = None
-        self.player2 = None
+        self.player1 = player1
+        self.player2 = player2
+
+    def fire(self, actor:Player, target:Player, coordinates:Coordinates):
+        actor.send.append(coordinates)
+        target.recieve.append(coordinates)
