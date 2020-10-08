@@ -22,16 +22,28 @@ function draw_opponent_misses(coordinates){
     return element;
 }
 
-
+// draw player's ships
 function draw_ship(coordinates){
     let element = document.getElementById (`y${coordinates.x}${coordinates.y}`);
-    console.log(`y${coordinates.x}${coordinates.y}`);
-    // element.style.backgroundColor = "black"
-//    element.style.fill = 'rgb(0,0,204)';
     element.style.visibility = 'visible';
     element.style.backgroundColor = "lightblue";
     return element;
 }
+
+// draw hits to player's ships
+function draw_hit_to_player_ships(coordinates){
+    let element = document.getElementById (`y${coordinates.x}${coordinates.y}`);
+    element.style.visibility = 'visible';
+    element.style.backgroundColor = "red";
+    return element;
+    }
+
+function draw_hit_to_opponent_ships(coordinates){
+    let element = document.getElementById (`o${coordinates.x}${coordinates.y}`);
+    element.style.visibility = 'visible';
+    element.style.backgroundColor = "red";
+    return element;
+    }
 
 function hide_squeare(coordinates){
     let element = document.getElementById (coordinates);

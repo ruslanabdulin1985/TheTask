@@ -14,6 +14,33 @@ class Coordinates:
             return True
         return False
 
-    def tojson(self):
-        return json.dumps(self, default=lambda o: o.__dict__,
-                          sort_keys=True, indent=4)
+    def next_y(self):
+        if self.y<10:
+            return self.y+1
+        else:
+            raise Exception('can not go beyond the limit')
+
+    def prev_y(self):
+        if self.y > 1:
+            return self.y - 1
+        else:
+            raise Exception('can not go beyond the limit')
+
+    def next_x(self):
+        letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+        index = letters.index(self.x)
+
+        if index < 9:
+            return letters[index + 1]
+        else:
+            raise Exception('can not go beyond the limit')
+
+    def prev_x(self):
+        letters = ['a','b','c','d','e','f','g','h','i','j']
+        index = letters.index(self.x)
+
+        if index > 0 :
+            return letters[index-1]
+        else:
+            raise Exception('can not go beyond the limit')
+

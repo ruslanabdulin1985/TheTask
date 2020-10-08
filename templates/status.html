@@ -6,8 +6,11 @@
 {% block content %}
         <script type=text/javascript src="{{
   url_for('static', filename='js/status.js') }}"></script>
-<div class="status">
 
+<div id="staus-block" class="status">
+ <script type="text/javascript">
+    bg_color("{{"green" if data.result else "red"}}");
+ </script>
 
     <div><label id="result">{{"HIT" if data.result else "MISS"}}</label></div>
 <h1>NEXT PLAYER: {{data.active_player.name}} </h1>

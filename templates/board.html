@@ -49,7 +49,7 @@
 
 
 <!--  Plyaer Misses-->
-  {% for coordinates in data.active_player.send %}
+  {% for coordinates in data.passive_player.recieve %}
     <script type="text/javascript">
     var t = {{coordinates.__dict__|tojson}};
     draw_player_misses(t);
@@ -76,11 +76,37 @@
     var t = {{coordinates.__dict__|tojson}};
     draw_ship(t);
     </script>
-
-
   {% endfor %}
 {% endfor %}
-ships
+
+
+<!--  Draw actual player's taken damages-->
+  {% for ship in data.active_player.ships %}
+  {%for s_coordinates in ship.set_of_coordinates%}
+    {% for h_coordinates in data.active_player.recieve %}
+    {%- if h_coordinates.match(s_coordinates)-%}
+         <script type="text/javascript">
+          var t = {{s_coordinates.__dict__|tojson}};
+          draw_hit_to_player_ships(t);
+          </script>
+    {%- endif -%}
+    {% endfor %}
+  {% endfor %}
+{% endfor %}
+
+<!--  Draw oppoenet's taken damages-->
+    {% for ship in data.passive_player.ships %}
+  {%for s_coordinates in ship.set_of_coordinates%}
+    {% for h_coordinates in data.passive_player.recieve %}
+    {%- if h_coordinates.match(s_coordinates)-%}
+         <script type="text/javascript">
+          var t = {{s_coordinates.__dict__|tojson}};
+          draw_hit_to_opponent_ships(t);
+          </script>
+    {%- endif -%}
+    {% endfor %}
+  {% endfor %}
+{% endfor %}
 
 </div>
 {% endblock %}
