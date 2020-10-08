@@ -1,10 +1,47 @@
 table{
     border-collapse: collapse; 
     margin: 20px;
+    border-style:none;
+}
+
+.status{
+background-color:green;
 }
 
 table td{
     height: 30px;
     width: 30px;
+    /* border-style:none; */
+    /* border-top: 2px solid black; */
     border: 2px solid black;
 }
+
+table tr{
+    height: 30px;
+    width: 30px;
+    border-style:none;
+}
+
+.cell{
+    background-color: lightgray;
+    width: 40px;
+    height: 40px;
+}
+
+.cell-header{
+    width: 40px;
+    height: 40px;
+    border-style: none;
+    background-color: white;
+    text-align: center; 
+
+}
+
+
+.triangle-down {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-top: 100px solid red;
+  }

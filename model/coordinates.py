@@ -1,6 +1,8 @@
+import json
+
 class Coordinates:
-    def __init__(self, y:str, x:int):
-            if all([x>0, x<9]) and y in ['a','b','c','d','e','f','g','h']:
+    def __init__(self, x:str, y:int):
+            if all([y>0, y<11]) and x in ['a','b','c','d','e','f','g','h','i','j']:
                 self.x = x
                 self.y = y
             else:
@@ -11,3 +13,7 @@ class Coordinates:
         if coordinates.x == self.x and coordinates.y == self.y:
             return True
         return False
+
+    def tojson(self):
+        return json.dumps(self, default=lambda o: o.__dict__,
+                          sort_keys=True, indent=4)

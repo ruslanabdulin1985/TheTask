@@ -5,115 +5,120 @@
 
 {% block content %}
 
-Your Board
-<table>
-    <tr>
-        <td></td>
-        <td>A</td>
-        <td>B</td>
-        <td>C</td>
-        <td>D</td>
-        <td>E</td>
-        <td>F</td>
-        <td>G</td>
-        <td>H</td>
-    </tr> 
-    <tr>
-        <td>1</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-       
-    </tr> 
-    <tr>
-        <td>2</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-       
-    </tr>
-    <tr>
-        <td>3</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        
-    </tr>
-    <tr>
-        <td>4</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        
-    </tr>
-    <tr>
-        <td>5</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        
-    </tr>
-    <tr>
-        <td>6</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        
-    </tr>
-    <tr>
-        <td>7</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        
-    </tr>
-    <tr>
-        <td>8</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        
-    </tr>   
-</table>
+
+<!--<div><label id="result">{{"HIT" if data.result else "MISS"}}</label></div>&ndash;&gt;-->
+<h1>NEXT PLAYER: {{data.active_player.name}} </h1>
+
+<button onclick="location.href = '/board'">I am ready </button>
+
+<!--<table>-->
+<!--    <tr>-->
+<!--        <td></td>-->
+<!--        <td>A</td>-->
+<!--        <td>B</td>-->
+<!--        <td>C</td>-->
+<!--        <td>D</td>-->
+<!--        <td>E</td>-->
+<!--        <td>F</td>-->
+<!--        <td>G</td>-->
+<!--        <td>H</td>-->
+<!--    </tr> -->
+<!--    <tr>-->
+<!--        <td>1</td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--       -->
+<!--    </tr> -->
+<!--    <tr>-->
+<!--        <td>2</td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--       -->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td>3</td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        -->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td>4</td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        -->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td>5</td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        -->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td>6</td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        -->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td>7</td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        -->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td>8</td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        -->
+<!--    </tr>   -->
+<!--</table>-->
 
 {% endblock %}

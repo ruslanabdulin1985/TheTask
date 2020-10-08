@@ -9,6 +9,6 @@ if __name__ == "__main__":
 
     g = Game(1, p1, p2);
 
-    p2.ships.append(Ship(2, [Coordinates('y', 1), Coordinates('a', 2)]))
+    p2.ships.append(Ship(2, [Coordinates('a', 1), Coordinates('a', 2)]))
 
     print(g.fire(p1, p2, Coordinates("a", 2)))

@@ -1,0 +1,86 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Main Menu{% endblock %}
+
+{% block content %}
+<div style="overflow: auto;">
+<table style="float:left;">
+  <tr>
+    {% for column in ['','a','b','c','d','e','f','g','h','i','j'] %}
+          <td class="cell-header">{{column|upper}}</td>
+      {% endfor %}
+  </tr>
+  {% for row in range(1, 11) %}
+    <tr>
+          <td class="cell-header">{{row}}</td>
+      {% for column in ['a','b','c','d','e','f','g','h','i','j'] %}
+          <td id = y{{column}}{{row}} class="cell"></td>
+      {% endfor %}
+    </tr>
+  {% endfor %}
+</table>
+
+<table style="float:left;">
+  <tr>
+    {% for column in ['','a','b','c','d','e','f','g','h','i','j'] %}
+          <td class="cell-header"> {{column|upper}}</td>
+      {% endfor %}
+  </tr>
+  {% for row in range(1, 11) %}
+    <tr>
+          <td id class="cell-header">{{row}}</td>
+      {% for column in ['a','b','c','d','e','f','g','h','i','j'] %}
+          <td id = o{{column}}{{row}} class="cell"></td>
+      {% endfor %}
+    </tr>
+  {% endfor %}
+</table>
+</div>
+
+
+ <script type=text/javascript src="{{
+  url_for('static', filename='js/board.js') }}"></script>
+
+
+
+<!--Draw misses-->
+<div>ships
+
+
+<!--  Plyaer Misses-->
+  {% for coordinates in data.active_player.send %}
+    <script type="text/javascript">
+    var t = {{coordinates.__dict__|tojson}};
+    draw_player_misses(t);
+    </script>
+  {% endfor %}
+
+
+<!--Oppenent Missess-->
+  {% for coordinates in data.active_player.recieve %}
+      <script type="text/javascript">
+    var t = {{coordinates.__dict__|tojson}};
+    draw_opponent_misses(t);
+    </script>
+  {% endfor %}
+
+
+
+
+<!--Draw ships actual player's ships-->
+<div>ships
+{% for ship in data.active_player.ships %}
+  {%for coordinates in ship.set_of_coordinates%}
+    <script type="text/javascript">
+    var t = {{coordinates.__dict__|tojson}};
+    draw_ship(t);
+    </script>
+
+
+  {% endfor %}
+{% endfor %}
+ships
+
+</div>
+{% endblock %}

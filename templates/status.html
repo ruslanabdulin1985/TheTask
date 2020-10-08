@@ -1,0 +1,18 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Main Menu{% endblock %}
+
+{% block content %}
+        <script type=text/javascript src="{{
+  url_for('static', filename='js/status.js') }}"></script>
+<div class="status">
+
+
+    <div><label id="result">{{"HIT" if data.result else "MISS"}}</label></div>
+<h1>NEXT PLAYER: {{data.active_player.name}} </h1>
+
+<button onclick="location.href = '/board'">I am ready !</button>
+</div>
+
+{% endblock %}
