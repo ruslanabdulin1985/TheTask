@@ -15,7 +15,17 @@
     <div><label id="result">{{"HIT" if data.result else "MISS"}}</label></div>
 <h1>NEXT PLAYER: {{data.active_player.name}} </h1>
 
+    {%- if data.passive_player.has_more_alive_ships() -%}
+
+
 <button onclick="location.href = '/board'">I am ready !</button>
+{% else %}
+    <label><h1>Game Over</h1></label>
+    <button onclick="location.href = '/'">Play again !</button>
+
+
+    {%- endif -%}
+
 </div>
 
 {% endblock %}

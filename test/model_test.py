@@ -13,6 +13,10 @@ class TestModelClasses(unittest.TestCase):
         self.assertFalse(c1.match(c4))
         self.assertRaises(Exception, Coordinates, 'a', 11)
         self.assertRaises(Exception, Coordinates,'y', 7)
+        self.assertEqual('b', c1.next_x())
+        self.assertEqual(2, c1.next_y())
+        self.assertEqual('a', c3.prev_x())
+        self.assertEqual(1, c4.prev_y())
 
 if __name__ == '__main__':
     unittest.main()
