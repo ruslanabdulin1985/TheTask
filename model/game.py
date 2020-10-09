@@ -8,6 +8,9 @@ coordinates
 from model.player import Player
 from model.coordinates import Coordinates
 
+# FIXME
+from model.ship import Ship
+
 
 class Game:
     """
@@ -66,3 +69,19 @@ class Game:
             return self.player2
         else:
             return self.player1
+
+
+    def add_player(self,player_num:str, name:str, list_of_ships:list):
+        player = Player(name)
+        # FIXME
+        player.ships.append(Ship(2, [Coordinates('e', 1), Coordinates('f', 1)]))
+        player.ships.append(Ship(4, [Coordinates('j', 7), Coordinates('i', 7), Coordinates('h', 7), Coordinates('g', 7)]))
+
+        if player_num == '1':
+            self.player1 = player
+            self.turn = player
+
+        if player_num == '2':
+            self.player2 = player
+
+

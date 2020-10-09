@@ -4,12 +4,47 @@
 {% block title %}Main Menu{% endblock %}
 
 {% block content %}
+        <script type=text/javascript src="{{
+  url_for('static', filename='js/setup_player.js') }}"></script>
 
-<label>State your name</label>
+
+<label>Player {{data.player}} State your name</label>
 <input type="text" id="name">
+<button id="confirmBtn" onclick="set_name({{data.player}})">SET NAME</button>
 
-<button>Start Game</button>
+<div>Place your ships</div>
+
+<div style="overflow: auto;">
+<table style="float:left;">
+  <tr>
+    {% for column in ['','a','b','c','d','e','f','g','h','i','j'] %}
+          <td class="cell-header">{{column|upper}}</td>
+      {% endfor %}
+  </tr>
+  {% for row in range(1, 11) %}
+    <tr>
+          <td class="cell-header">{{row}}</td>
+      {% for column in ['a','b','c','d','e','f','g','h','i','j'] %}
+          <td id = y{{column}}{{row}} class="cell"></td>
+      {% endfor %}
+    </tr>
+  {% endfor %}
+</table>
+
+<p><input type="checkbox" name="check" id="t4"> Carrier</p>
+<p><input type="checkbox" name="check" id="t3"> Battleship</p>
+<p><input type="checkbox" name="check" id="t2"> Destroyer</p>
+<p><input type="checkbox" name="check" id="t1"> Submarine</p>
+
+<button id="confirmShipBtn" onclick="addShip()">Confirm</button>
+</div>
 
 
+{% if data.player=='1'%}
+<button onclick="location.href = '/setup_player/2'">NEXT</button>
+{%endif%}
+{% if data.player=='2'%}
+<button onclick="location.href = '/game'">NEXT</button>
+{%endif%}
 
 {% endblock %}

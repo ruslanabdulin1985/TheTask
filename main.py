@@ -41,17 +41,31 @@ def setup():
     return render_template('setup.html')
 
 @app.route("/setup_player/<number>")
-def setup():
-    return render_template('setup.html')
+def setup_player(number):
+    return render_template('setup_player.html', data={"player": number})
 
 @app.route("/board")
 def board():
+    print(g.player1.name)
+    print(g.player2.name)
     return render_template('board.html', data={"active_player": g.turn, "passive_player": g.next_player()})
 
 
 @app.route("/game")
 def status():
-      return render_template('game.html', data={"active_player": g.turn})
+    return render_template('game.html', data={"active_player": g.turn})
+
+
+@app.route("/add_ship")
+def add_ship():
+    return {"name": "OK"}
+
+
+@app.route("/set_name/<player_num>/<name>")
+def set_name(player_num, name):
+    g.add_player(player_num, name, None)
+    return {"name": name}
+
 
 @app.route("/status<coordinates>")
 def status_c(coordinates):
