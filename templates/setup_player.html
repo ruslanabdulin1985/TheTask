@@ -4,18 +4,11 @@
 {% block title %}Main Menu{% endblock %}
 
 {% block content %}
-        <script type=text/javascript src="{{
-  url_for('static', filename='js/setup_player.js') }}"></script>
+<div class="grid-container">
 
-
-<label>Player {{data.player}} State your name</label>
-<input type="text" id="name">
-<!--<button id="confirmBtn" onclick="set_name({{data.player}})">SET NAME</button>-->
-
-<div>Place your ships</div>
-
-<div style="overflow: auto;">
-<table style="float:left;">
+    <div class="grid-item">
+        <div class="centred">Place your ships:</div>
+        <table style="float:left;">
   <tr>
     {% for column in ['','a','b','c','d','e','f','g','h','i','j'] %}
           <td class="cell-header">{{column|upper}}</td>
@@ -30,23 +23,55 @@
     </tr>
   {% endfor %}
 </table>
-
-<p><input type="checkbox" name="check" id="t4"> Carrier</p>
+    </div>
+    <div class="grid-item middleItem">
+        <p><input type="checkbox" name="check" id="t4"> Carrier</p>
 <p><input type="checkbox" name="check" id="t3"> Battleship</p>
 <p><input type="checkbox" name="check" id="t2"> Destroyer</p>
 <p><input type="checkbox" name="check" id="t1"> Submarine</p>
 
-<button id="confirmShipBtn" onclick="add_ship(setup.current_ship)">Confirm</button>
-</div>
+<button class="inactive-button" id="confirmShipBtn" onclick="add_ship(setup.current_ship)" disabled>Confirm</button>
 
-<button id="confirmSetupBtn" onclick="save_setup({{data.player}}, setup)">Save</button>
 
-<!--FIXME-->
+    </div>
+
+    <div class="grid-item">
+        <div class="spacer"></div>
+        <p><label class="for_name">Player {{data.player}} State your name</label></p>
+        <input class="for_name" type="text" id="name">
+        <div class="spacer"></div>
+
+         <button class="save-button" id="confirmSetupBtn" onclick="save_setup({{data.player}}, setup)">Save</button>
+        <!--FIXME-->
 {% if data.player=='1'%}
-<button onclick="location.href = '/setup_player/2'">NEXT</button>
+<button class="next-button" onclick="location.href = '/setup_player/2'">NEXT</button>
 {%endif%}
 {% if data.player=='2'%}
-<button onclick="location.href = '/game'">NEXT</button>
+<button  class="next-button" onclick="location.href = '/game'">NEXT</button>
 {%endif%}
+
+
+    </div>
+
+</div>
+
+        <script type=text/javascript src="{{
+  url_for('static', filename='js/setup_player.js') }}"></script>
+
+<div class="centred">
+
+<!--<button id="confirmBtn" onclick="set_name({{data.player}})">SET NAME</button>-->
+</div>
+<div class="spacer"></div>
+
+
+<div class = "centred" style="overflow: auto;">
+
+
+
+</div>
+
+
+
 
 {% endblock %}

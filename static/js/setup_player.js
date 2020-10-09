@@ -4,9 +4,8 @@ class Setup {
  this.selection = new Selection();
  this.list_of_ships = [];
  this.player = null;
-
-let shipSet = [4,3,3,2,2,2,1]; //number of elements: number of ships, values: types of ships
-
+// this.shipSet = getRules();//number of elements: number of ships, values: types of ships
+this.shipSet = [1,2];
 let name_is_set = false;
 let ships_are_set = false;
   }
@@ -40,6 +39,15 @@ class Ship{
 
     add_coordinates(coordinates_obj){
         this.set_of_coordinates.push(coordinates_obj);
+    }
+
+    is_allowed(num){
+        console.log("num"+num);
+        console.log("ss"+this.s_type);
+        if (num == this.s_type)
+            return true;
+        else
+           return false;
     }
 }
 
@@ -96,7 +104,6 @@ function isNeighbourCell(cell_id, lastChecked){
     let thisletterIndex = (letters.indexOf(cell_id[1]));
     let thisNumberInt = parseInt(cell_id[2], 10);
     let lastNumberInt = parseInt(lastChecked[2], 10);
-    console.log('li:'+lastletterIndex+'ci:'+thisletterIndex+ 'ln:'+lastNumberInt+'cn'+thisNumberInt)
     if ((lastletterIndex == thisletterIndex+1|| lastletterIndex == thisletterIndex-1)&lastNumberInt == thisNumberInt)
         return true;
     else if ((lastNumberInt == thisNumberInt+1|| lastNumberInt == thisNumberInt-1)&lastletterIndex == thisletterIndex)
@@ -116,16 +123,26 @@ function renewBoard(){
          for (let j=0; j<10; j++){
 
             element = document.getElementById('y'+letters[j]+[i])
-            element.style.backgroundColor = 'lightgray';
+            if (element.style.backgroundColor=='gray')
+                element.style.backgroundColor = 'lightgray';
             }
     }
 }
 
 function add_ship(ship_obj){
         setup.list_of_ships.push(ship_obj);
+        ship_obj.set_of_coordinates.forEach((item) => {
+        element= document.getElementById("y"+item.x+item.y);
+        element.style.backgroundColor = 'skyblue';
+        console.log(element);
+    })
+
         reNewShip();
         renewBoard();
         noneChecked();
+        btn = document.getElementById("confirmShipBtn");
+        btn.disabled=true;
+        btn.className = "inactive-button";
 }
 
 function save_setup(player, setup_obj){
@@ -165,17 +182,22 @@ function click(event)
             //if toggled/untogled checkbox
             if (id!= null && id.match(/^t[1234]$/)!=null){
                 console.log(element.checked)
+                btn = document.getElementById("confirmShipBtn");
+                btn.disabled=true;
+                btn.className = "inactive-button";
                  if (element.checked==true){
                     onlyOneChecked(element);
                     reNewShip(); //renews visual atributes of a ship
                     renewBoard(); // renew board
                     setup.current_ship = new Ship(id[1]);
+                    console.log(id[1]);
                     setup.selection = new Selection();
                  }
-                 else{
+                 else{// unchecked
                     renewBoard(); // renew board
                     setup.current_ship = new Ship(0);
                     setup.selection = new Selection();
+
                  }
 
             }
@@ -188,8 +210,12 @@ function click(event)
 
                        if(setup.selection.number_of_selected_cells<=setup.current_ship.s_type){
                            element.style.backgroundColor = 'gray';
-                           let y_coor = parseInt(id.substring(2), 10); //take value after in between x coordinate and len
-                           setup.current_ship.add_coordinates(new Coordinates(id[1], y_coor));
+                           setup.current_ship.add_coordinates(new Coordinates(id[1], parseInt(id.substring(2), 10)));
+                           if (setup.current_ship.is_allowed(setup.selection.number_of_selected_cells)){
+                                btn = document.getElementById("confirmShipBtn");
+                                btn.disabled=false;
+                                btn.className = "confirm-button";
+                                }
                            console.log(setup.current_ship.s_type)
 
                        }

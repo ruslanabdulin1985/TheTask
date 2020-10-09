@@ -19,9 +19,9 @@ class Player:
         :param name: each player must have a name
         """
         self.name = name
-        # self.send = set() # sent shots
         self.recieve = set() # recieved shots
         self.ships = [] # list of ships
+        self.score = 0
 
     def has_more_alive_ships(self) ->bool:
         """
@@ -41,7 +41,7 @@ class Player:
         print(dict_of_ships)
 
         for ship in dict_of_ships:
-            new_ship = Ship(ship['s_type'], [])
+            new_ship = Ship(int(ship['s_type']), [])
             for coordinates in ship['set_of_coordinates']:
                 new_coordinates = Coordinates(coordinates['x'], coordinates['y'])
                 new_ship.set_of_coordinates.append(new_coordinates)

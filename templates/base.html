@@ -5,9 +5,13 @@
         <title>{% block title %}TITLE{% endblock %}</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     </head>
-    <body>
-        <nav>
-            <p>Battleships</p>
+            <div class="centred">
+            <img  src="{{ url_for('static', filename='img/logo.svg') }}">
+            </div>
+<!--    <div class = "spacer">-->
+
+    </div>
+
         </nav>
         
         <main>
@@ -15,7 +19,10 @@
         </main>
         
         <footer>
-            <footer>footer</footer>
+            <footer><div class="fullsize">
+            <img class="fullsize" src="{{ url_for('static', filename='img/footer.svg') }}">
+            </div>
+            </footer>
         </footer>
 
     </body>

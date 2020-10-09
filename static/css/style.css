@@ -36,6 +36,88 @@ table tr{
 
 }
 
+.for_name{
+    font-size: 16pt;
+    margin: 20px
+}
+
+.spacer{
+    height: 50px;
+}
+
+.grid-item{
+
+}
+
+.grid-container {
+  display: grid;
+
+  grid-template-columns: auto auto auto;
+  padding: 10px;
+}
+
+.next-button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.save-button {
+  background-color: skyblue;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  font-size: 16px;
+}
+
+.inactive-button{
+  background-color: lightgray;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  font-size: 16px;
+}
+
+.confirm-button {
+  background-color: skyblue;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+
+  font-size: 16px;
+}
+
+
+
+.middleItem {
+  margin-top:50px;
+}
+
+.fullsize{
+    width:100%;
+}
+
+.centred{
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 .triangle-down {
     width: 0;

@@ -50,6 +50,8 @@ class Game:
                     ship.is_alive=ship.is_dead(target.recieve)  # if hit we need to check i the ship is still allive or not
                     if not ship.is_alive:
                         for d_coordinates in ship.calculate_dead_coordinates(): # if dead mark surround it with hits
+                            print('Dead coordinates', d_coordinates.x, d_coordinates.y)
+
                             target.recieve.add(d_coordinates)
 
                     return True

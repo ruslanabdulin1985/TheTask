@@ -9,7 +9,6 @@ console.log(data)
 function draw_player_misses(coordinates){
  let element = document.getElementById (`o${coordinates.x}${coordinates.y}`);
     console.log("hide"+`o${coordinates.x}${coordinates.y}`);
-    // element.style.visibility = 'hidden';
     element.style.backgroundColor = 'white';
     return element;
 }

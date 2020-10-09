@@ -12,12 +12,15 @@ from model.game import Game
 from model.player import Player
 from model.ship import Ship
 from model.coordinates import Coordinates
+from model.rules import Rules
 
 app = Flask(__name__)
 
+#FIXME
 p1 = Player("Player 1");
 p2 = Player("Player 2");
 
+r = Rules(mode=5, opponent='human')
 g = Game(1, p1, p2);
 
 
@@ -32,7 +35,7 @@ def setup():
 
 @app.route("/setup_player/<number>")
 def setup_player(number):
-    return render_template('setup_player.html', data={"player": number})
+    return render_template('setup_player.html', data={"player": number, 'rules':r})
 
 @app.route("/board")
 def board():

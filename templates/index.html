@@ -4,9 +4,32 @@
 {% block title %}Main Menu{% endblock %}
 
 {% block content %}
+<div class="spacer"></div>
+<div class="spacer"></div>
 
-<button onclick="location.href = '/setup'">START NEW GAME</button>
-<button>READ THE RULES</button>
+<div class="grid-container">
+    <div class="grid-item">
 
+    </div>
+    <div class="grid-item">
+<div class="grid-container">
+    <div class="grid-item">
+        <button class="next-button" onclick="location.href = '/setup'">START NEW GAME</button>
+    </div>
+    <div class="grid-item">    </div>
+    <div class="grid-item">
+        <button class="confirm-button" style="float:right"> READ THE RULES</button>
+    </div>
+<div class="spacer"></div>
+
+</div>
+    </div>
+    <div class="grid-item">
+
+    </div>
+
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+</div>
 
 {% endblock %}
