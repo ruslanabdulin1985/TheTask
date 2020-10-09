@@ -10,7 +10,7 @@
 
 <label>Player {{data.player}} State your name</label>
 <input type="text" id="name">
-<button id="confirmBtn" onclick="set_name({{data.player}})">SET NAME</button>
+<!--<button id="confirmBtn" onclick="set_name({{data.player}})">SET NAME</button>-->
 
 <div>Place your ships</div>
 
@@ -36,10 +36,12 @@
 <p><input type="checkbox" name="check" id="t2"> Destroyer</p>
 <p><input type="checkbox" name="check" id="t1"> Submarine</p>
 
-<button id="confirmShipBtn" onclick="addShip()">Confirm</button>
+<button id="confirmShipBtn" onclick="add_ship(setup.current_ship)">Confirm</button>
 </div>
 
+<button id="confirmSetupBtn" onclick="save_setup({{data.player}}, setup)">Save</button>
 
+<!--FIXME-->
 {% if data.player=='1'%}
 <button onclick="location.href = '/setup_player/2'">NEXT</button>
 {%endif%}

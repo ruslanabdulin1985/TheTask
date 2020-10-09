@@ -73,9 +73,6 @@ class Game:
 
     def add_player(self,player_num:str, name:str, list_of_ships:list):
         player = Player(name)
-        # FIXME
-        player.ships.append(Ship(2, [Coordinates('e', 1), Coordinates('f', 1)]))
-        player.ships.append(Ship(4, [Coordinates('j', 7), Coordinates('i', 7), Coordinates('h', 7), Coordinates('g', 7)]))
 
         if player_num == '1':
             self.player1 = player

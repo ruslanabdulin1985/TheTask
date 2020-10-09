@@ -6,7 +6,7 @@ returns View templates
 """
 
 
-from flask import Flask, render_template
+from flask import Flask, request, render_template
 from model.games import Games
 from model.game import Game
 from model.player import Player
@@ -15,22 +15,12 @@ from model.coordinates import Coordinates
 
 app = Flask(__name__)
 
-#FIXME
-p1 = Player("Vasya");
-p2 = Player("Kolya");
+p1 = Player("Player 1");
+p2 = Player("Player 2");
 
 g = Game(1, p1, p2);
 
-p1.ships.append(Ship(2, [Coordinates('e', 1), Coordinates('f', 1)]))
-p1.ships.append(Ship(2, [Coordinates('b', 4), Coordinates('a', 4)]))
-p1.ships.append(Ship(4, [Coordinates('j', 7), Coordinates('i', 7), Coordinates('h', 7), Coordinates('g', 7)]))
-p1.ships.append(Ship(2, [Coordinates('d', 5), Coordinates('d', 6)]))
 
-p2.ships.append(Ship(2, [Coordinates('a', 1), Coordinates('a', 2)]))
-p2.ships.append(Ship(3, [Coordinates('a', 5), Coordinates('a', 6), Coordinates('a', 7)]))
-p2.ships.append(Ship(3, [Coordinates('c', 3), Coordinates('c', 2), Coordinates('c', 4)]))
-p2.ships.append(Ship(4, [Coordinates('e', 2), Coordinates('e', 3), Coordinates('e', 4), Coordinates('e', 5)]))
-# api = Api(app)
 
 @app.route("/")
 def index():
@@ -53,18 +43,26 @@ def board():
 
 @app.route("/game")
 def status():
+    g.turn = g.player1
     return render_template('game.html', data={"active_player": g.turn})
 
 
-@app.route("/add_ship")
-def add_ship():
+@app.route("/save_setup/<player_num>", methods=['POST'])
+def save_setup(player_num):
+    content = request.json
+    print(content)
+
+    player = Player(content['player']['name'])
+    dict_of_ships = content['list_of_ships']
+    player.add_dict_of_ships(dict_of_ships)
+
+    if player_num == "1":
+        g.player1 = player
+    if player_num == "2":
+        g.player2 = player
+
     return {"name": "OK"}
 
-
-@app.route("/set_name/<player_num>/<name>")
-def set_name(player_num, name):
-    g.add_player(player_num, name, None)
-    return {"name": name}
 
 
 @app.route("/status<coordinates>")

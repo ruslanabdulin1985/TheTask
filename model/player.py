@@ -1,7 +1,10 @@
 """
 module contains class Player
 
+imports model classes
 """
+from model.ship import Ship
+from model.coordinates import Coordinates
 
 class Player:
     """
@@ -33,3 +36,14 @@ class Player:
                 return True
 
         return False
+
+    def add_dict_of_ships(self, dict_of_ships):
+        print(dict_of_ships)
+
+        for ship in dict_of_ships:
+            new_ship = Ship(ship['s_type'], [])
+            for coordinates in ship['set_of_coordinates']:
+                new_coordinates = Coordinates(coordinates['x'], coordinates['y'])
+                new_ship.set_of_coordinates.append(new_coordinates)
+            self.ships.append(new_ship)
+            print(self.ships)

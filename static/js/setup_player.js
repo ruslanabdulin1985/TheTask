@@ -1,12 +1,46 @@
 class Setup {
   constructor() {
-  let shipType = 0;
-let shipCellsSet = 0;
-let shipSet = [4,3,3,2,2,2,1];
-let lastClickedCellId = null;
+ this.current_ship = null;
+ this.selection = new Selection();
+ this.list_of_ships = [];
+ this.player = null;
+
+let shipSet = [4,3,3,2,2,2,1]; //number of elements: number of ships, values: types of ships
+
 let name_is_set = false;
 let ships_are_set = false;
   }
+}
+
+class Player{
+constructor(name){
+    this.name = name;
+}
+}
+
+class Selection{
+constructor(){
+         this.number_of_selected_cells = 0;
+         this.lastClickedCellId = null;
+    }
+}
+
+class Coordinates{
+    constructor(x_val, y_val){
+         this.x = x_val;
+         this.y = y_val;
+    }
+}
+
+class Ship{
+    constructor(type_val){
+         this.s_type = type_val;
+         this.set_of_coordinates = [];
+    }
+
+    add_coordinates(coordinates_obj){
+        this.set_of_coordinates.push(coordinates_obj);
+    }
 }
 
 setup = new Setup();
@@ -33,20 +67,25 @@ function noneChecked() {
 }
 
 
-function set_name(player){
-name = document.getElementById("name").value;
-var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        stBtn = document.getElementById("confirmBtn");
-        stBtn.style.cursor= "not-allowed";
-        stBtn.style.pointerEvents= "none";
-        console.log("player "+ player +" name " + name)
-      }
-      }
-    xhttp.open("GET", "/set_name/"+player+"/"+name, true);
-    xhttp.send();
-}
+//
+//function set_name(player){
+///**
+// * takes player's name and passes it to the Model through XMLHttpRequest
+// *@param player arg1 number of the current player, either 1 or 2
+// */
+//name = document.getElementById("name").value;
+//var xhttp = new XMLHttpRequest();
+//    xhttp.onreadystatechange = function() {
+//      if (this.readyState == 4 && this.status == 200) {
+//        stBtn = document.getElementById("confirmBtn");
+//        stBtn.style.cursor= "not-allowed";
+//        stBtn.style.pointerEvents= "none";
+//        console.log("player "+ player +" name " + name)
+//      }
+//      }
+//    xhttp.open("GET", "/set_name/"+player+"/"+name, true);
+//    xhttp.send();
+//}
 
 function isNeighbourCell(cell_id, lastChecked){
     if (lastChecked == null)
@@ -68,6 +107,9 @@ function isNeighbourCell(cell_id, lastChecked){
 
 
 function renewBoard(){
+    /**
+    * Clean the board for a new ship
+    */
     let letters = ['a','b','c','d','e','f','g','h','i','j'];
 
     for (let i=1; i<11; i++){
@@ -79,17 +121,30 @@ function renewBoard(){
     }
 }
 
-function addShip(){
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
+function add_ship(ship_obj){
+        setup.list_of_ships.push(ship_obj);
         reNewShip();
         renewBoard();
         noneChecked();
+}
+
+function save_setup(player, setup_obj){
+    setup.player = new Player(document.getElementById('name').value);
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+
+      if (this.readyState == 4 && this.status == 200) {
+//            TODO unblock next button
       }
       }
-    xhttp.open("GET", "/add_ship", true);
-    xhttp.send();
+    var data = JSON.stringify(setup_obj);
+
+    xhttp.open("POST", "/save_setup/"+player, true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+
+    console.log(setup.current_ship)
+    xhttp.send(data);
 
 }
 
@@ -100,30 +155,43 @@ function reNewShip(){
 }
 
 function click(event)
-        {
+        {/**
+        *Handles clicks on different elements of UI
+        *@param event - event click
+        */
+
             id = event.target.id;
+            element = document.getElementById(id);
+            //if toggled/untogled checkbox
             if (id!= null && id.match(/^t[1234]$/)!=null){
-                element = document.getElementById(id);
-                onlyOneChecked(element);
+                console.log(element.checked)
+                 if (element.checked==true){
+                    onlyOneChecked(element);
+                    reNewShip(); //renews visual atributes of a ship
+                    renewBoard(); // renew board
+                    setup.current_ship = new Ship(id[1]);
+                    setup.selection = new Selection();
+                 }
+                 else{
+                    renewBoard(); // renew board
+                    setup.current_ship = new Ship(0);
+                    setup.selection = new Selection();
+                 }
 
-                setup.lastClickedCellId = null;
-                reNewShip();
-                renewBoard();
-
-                setup.shipType = id[1];
-
-                setup.shipCellsSet = 0;
-                console.log(setup.shipType);
             }
 
+//            if a cell on the board is clicked
             else if (id!= null && id.match(/(^y[a-j](10)$)|(^y[a-j][0123456789]$)/)!=null){
-                   console.log(isNeighbourCell(id, setup.lastClickedCellId));
-                   if (isNeighbourCell(id, setup.lastClickedCellId)){
-                       setup.lastClickedCellId = id;
-                       setup.shipCellsSet ++;
-                       element = document.getElementById(id);
-                       if(setup.shipCellsSet<=setup.shipType){
+                   if (isNeighbourCell(id, setup.selection.lastClickedCellId)){
+                       setup.selection.lastClickedCellId = id;
+                       setup.selection.number_of_selected_cells++;
+
+                       if(setup.selection.number_of_selected_cells<=setup.current_ship.s_type){
                            element.style.backgroundColor = 'gray';
+                           let y_coor = parseInt(id.substring(2), 10); //take value after in between x coordinate and len
+                           setup.current_ship.add_coordinates(new Coordinates(id[1], y_coor));
+                           console.log(setup.current_ship.s_type)
+
                        }
                    }
             }
