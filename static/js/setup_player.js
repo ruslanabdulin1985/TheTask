@@ -1,130 +1,4 @@
-class Setup {
-  constructor() {
-    this.current_ship = null;
-    this.selection = new Selection();
-    this.list_of_ships = [];
-    this.player = null;
-    // this.shipSet = getRules();//number of elements: number of ships, values: types of ships
-    this.ship_stack = [1,2];
-//
-//    let name_is_set = false;
-//    let ships_are_set = false;
-}
-
-  remove_from_stack(ship){
-    /**
-    * Removes a placed ship by ship type (size of the ship)
-    * @param ship arg1 a ship object
-    */
-    let index = this.ship_stack.indexOf(parseInt(ship.s_type, 10));
-    if (index > -1) {
-        this.ship_stack.splice(index, 1);
-    }
-  }
-
-
-//
-//    reNewShip(){
-//        setup.shipType = 0;
-//        setup.shipCellsSet = 0;
-//        setup.shipCellsSet = 0;
-//    }
-
-//    FIXME
-    is_too_close_to_another_ship(coordinates){
-    /**
-     * Check if current coordinates are next to another ship
-     * @param  coordinates arg1 coordinates on the board
-     */
-        for (let i = 0; i<this.list_of_ships.length; i++){
-            let ship_obj = this.list_of_ships[i];
-            for (let j = 0; j<ship_obj.set_of_coordinates.length; j++){
-                let coordinates_obj = ship_obj.set_of_coordinates[j];
-                if (coordinates.is_neighbour_coordinates(coordinates_obj))
-                    return true;
-            }
-        }
-        return false;
-    }
-}
-
-class Player{
-constructor(name){
-    this.name = name;
-}
-}
-
-
-class Selection{
-constructor(){
-         this.number_of_selected_cells = 0;
-         this.lastClickedCellId = null;
-    }
-}
-
-class Coordinates{
-    constructor(x_val, y_val){
-         this.x = x_val;
-         this.y = y_val;
-    }
-
-    is_neighbour_coordinates(coordinates_lee){
-    /**
-    * compares two coordinates and decides if they are close to each other
-    * including diagonal neighbourhood
-    */
-        let letters = ['a','b','c','d','e','f','g','h','i','j'];
-        let foo_letter_index = letters.indexOf(this.x);
-        let lee_letter_index = letters.indexOf(coordinates_lee.x);
-        if ((foo_letter_index == lee_letter_index+1 | foo_letter_index == lee_letter_index-1 | foo_letter_index == lee_letter_index) &
-            (this.y == coordinates_lee.y +1 | this.y == coordinates_lee.y-1 | this.y == coordinates_lee.y))
-            {
-            return true;
-            }
-        else if (this.x == coordinates_lee.y & this.x == coordinates_lee.y){
-            return true;
-            }
-
-        else{
-            return false;
-        }
-    }
-
-}
-
-class Ship{
-    constructor(type_val){
-         this.s_type = type_val;
-         this.set_of_coordinates = [];
-    }
-
-    add_coordinates(coordinates_obj){
-        this.set_of_coordinates.push(coordinates_obj);
-    }
-
-    is_allowed(id, number_of_selected_cells, lastClickedCellId) {
-         if ((number_of_selected_cells<this.s_type)&is_neighbour_cell(id ,lastClickedCellId)){
-                return true;
-        }
-        else
-        return false;
-    }
-
-    is_fully_located(num){
-    /**
-    * This function decides if a ship has been completely put to the table
-    */
-        if (num == this.s_type & this.s_type!=0)
-            return true;
-        else
-           return false;
-    }
-}
-
-setup = new Setup();
-
-
-
+// Goes together with setup_player_model.js
 function onlyOneChecked(checkbox) {
     /**
      * Allows only one of checkboxes at a time to be toggled
@@ -210,7 +84,6 @@ function add_ship(ship_obj){
     });
 
         setup.current_ship = new Ship(0);
-//        reNewShip();
         renewBoard();
         noneChecked();
         btn = document.getElementById("confirmShipBtn");
@@ -220,7 +93,6 @@ function add_ship(ship_obj){
 
 function save_setup(player, setup_obj){
     setup.player = new Player(document.getElementById('name').value);
-
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -246,12 +118,15 @@ function save_setup(player, setup_obj){
 
 
 function process_ship_type_checkbox_click(element){
+/**
+* execute actions when a check box element is clicked
+* param element arg1 clicked element
+*/
     renewBoard(); // renew board
     setup.selection = new Selection();
 
      if (element.checked==true){
         onlyOneChecked(element);
-//        reNewShip(); //renews visual atributes of a ship
         setup.current_ship = new Ship(id[1]);
 
      }
@@ -261,6 +136,11 @@ function process_ship_type_checkbox_click(element){
 }
 
 function process_board_cell_click_event(element){
+        /**
+    * execute actions when a cell on the board is clicked
+    * param element arg1 clicked element
+    */
+
     if (setup.current_ship.is_allowed(id, setup.selection.number_of_selected_cells,
     setup.selection.lastClickedCellId, setup.set_of_types) & (!setup.is_too_close_to_another_ship(new Coordinates(id[1],
     parseInt(id.substring(2), 10)), setup))){
@@ -277,8 +157,6 @@ function process_board_cell_click_event(element){
         btn.className = "confirm-button";
         }
 }
-
-
 
 function click(event){
     /**
@@ -297,5 +175,8 @@ function click(event){
         process_board_cell_click_event(element);
 
 }
+
+
+setup = new Setup();
 checkboxes_check(setup.ship_stack);
 document.addEventListener("click", click);
