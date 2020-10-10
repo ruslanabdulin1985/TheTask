@@ -1,14 +1,51 @@
 class Setup {
   constructor() {
- this.current_ship = null;
- this.selection = new Selection();
- this.list_of_ships = [];
- this.player = null;
-// this.shipSet = getRules();//number of elements: number of ships, values: types of ships
-this.shipSet = [1,2];
-let name_is_set = false;
-let ships_are_set = false;
+    this.current_ship = null;
+    this.selection = new Selection();
+    this.list_of_ships = [];
+    this.player = null;
+    // this.shipSet = getRules();//number of elements: number of ships, values: types of ships
+    this.ship_stack = [1,2];
+//
+//    let name_is_set = false;
+//    let ships_are_set = false;
+}
+
+  remove_from_stack(ship){
+    /**
+    * Removes a placed ship by ship type (size of the ship)
+    * @param ship arg1 a ship object
+    */
+    let index = this.ship_stack.indexOf(parseInt(ship.s_type, 10));
+    if (index > -1) {
+        this.ship_stack.splice(index, 1);
+    }
   }
+
+
+//
+//    reNewShip(){
+//        setup.shipType = 0;
+//        setup.shipCellsSet = 0;
+//        setup.shipCellsSet = 0;
+//    }
+
+//    FIXME
+    is_too_close_to_another_ship(coordinates){
+    /**
+     * Check if current coordinates are next to another ship
+     * @param  coordinates arg1 coordinates on the board
+     */
+        for (let i = 0; i<this.list_of_ships.length; i++){
+            let ship_obj = this.list_of_ships[i];
+            for (let j = 0; j<ship_obj.set_of_coordinates.length; j++){
+                let coordinates_obj = ship_obj.set_of_coordinates[j];
+                if (coordinates.is_neighbour_coordinates(coordinates_obj))
+                    return true;
+            }
+        }
+        return false;
+    }
 }
 
 class Player{
@@ -16,6 +53,7 @@ constructor(name){
     this.name = name;
 }
 }
+
 
 class Selection{
 constructor(){
@@ -29,6 +67,29 @@ class Coordinates{
          this.x = x_val;
          this.y = y_val;
     }
+
+    is_neighbour_coordinates(coordinates_lee){
+    /**
+    * compares two coordinates and decides if they are close to each other
+    * including diagonal neighbourhood
+    */
+        let letters = ['a','b','c','d','e','f','g','h','i','j'];
+        let foo_letter_index = letters.indexOf(this.x);
+        let lee_letter_index = letters.indexOf(coordinates_lee.x);
+        if ((foo_letter_index == lee_letter_index+1 | foo_letter_index == lee_letter_index-1 | foo_letter_index == lee_letter_index) &
+            (this.y == coordinates_lee.y +1 | this.y == coordinates_lee.y-1 | this.y == coordinates_lee.y))
+            {
+            return true;
+            }
+        else if (this.x == coordinates_lee.y & this.x == coordinates_lee.y){
+            return true;
+            }
+
+        else{
+            return false;
+        }
+    }
+
 }
 
 class Ship{
@@ -42,7 +103,7 @@ class Ship{
     }
 
     is_allowed(id, number_of_selected_cells, lastClickedCellId) {
-         if ((number_of_selected_cells<this.s_type)&isNeighbourCell(id ,lastClickedCellId)){
+         if ((number_of_selected_cells<this.s_type)&is_neighbour_cell(id ,lastClickedCellId)){
                 return true;
         }
         else
@@ -50,8 +111,9 @@ class Ship{
     }
 
     is_fully_located(num){
-    console.log(num)
-    console.log(this.s_type)
+    /**
+    * This function decides if a ship has been completely put to the table
+    */
         if (num == this.s_type & this.s_type!=0)
             return true;
         else
@@ -61,12 +123,14 @@ class Ship{
 
 setup = new Setup();
 
+
+
 function onlyOneChecked(checkbox) {
-/**
- * Allows only one of check boxes be toggled
- * @param  checkbox arg1 checkbox document element
- */
-    var checkboxes = document.getElementsByName('check')
+    /**
+     * Allows only one of checkboxes at a time to be toggled
+     * @param  checkbox arg1 checkbox document element
+     */
+    var checkboxes = document.getElementsByName('check');
     checkboxes.forEach((item) => {
         if (item !== checkbox) item.checked = false;
     })
@@ -82,64 +146,21 @@ function noneChecked() {
     })
 }
 
-function is_too_close_to_another_ship(coordinates){
-    for (let i = 0; i<setup.list_of_ships.length; i++){
-        ship_obj = setup.list_of_ships[i];
-        for (let j = 0; j<ship_obj.set_of_coordinates.length; j++){
-            coordinates_obj = ship_obj.set_of_coordinates[j];
-            console.log("c1"+coordinates.x+coordinates.y+"c2"+coordinates_obj.x+coordinates_obj.y);
-            console.log(is_neighbour_coordinates(coordinates, coordinates_obj));
-            if (is_neighbour_coordinates(coordinates, coordinates_obj))
-                return true;
-        }
-    }
-    return false;
-}
-//
-//function set_name(player){
-///**
-// * takes player's name and passes it to the Model through XMLHttpRequest
-// *@param player arg1 number of the current player, either 1 or 2
-// */
-//name = document.getElementById("name").value;
-//var xhttp = new XMLHttpRequest();
-//    xhttp.onreadystatechange = function() {
-//      if (this.readyState == 4 && this.status == 200) {
-//        stBtn = document.getElementById("confirmBtn");
-//        stBtn.style.cursor= "not-allowed";
-//        stBtn.style.pointerEvents= "none";
-//        console.log("player "+ player +" name " + name)
-//      }
-//      }
-//    xhttp.open("GET", "/set_name/"+player+"/"+name, true);
-//    xhttp.send();
-//}
-
-function is_neighbour_coordinates(coordintes_foo, coordinates_lee){
-    let letters = ['a','b','c','d','e','f','g','h','i','j'];
-    let foo_letter_index = letters.indexOf(coordintes_foo.x);
-    let lee_letter_index = letters.indexOf(coordinates_lee.x);
-    console.log("i"+foo_letter_index + " " + lee_letter_index);
-    console.log("n"+coordintes_foo.y+ " " + coordinates_lee.y)
-    if ((foo_letter_index == lee_letter_index+1 | foo_letter_index == lee_letter_index-1 | foo_letter_index == lee_letter_index) &
-        (coordintes_foo.y == coordinates_lee.y +1 | coordintes_foo.y == coordinates_lee.y-1 | coordintes_foo.y == coordinates_lee.y))
-        {
-        console.log('we are here')
-        return true;
-        }
-    else if (coordintes_foo.x == coordinates_lee.y & coordintes_foo.x == coordinates_lee.y1){
-        console.log('no, we are here')
-        return true;
-        }
-
-    else{
-     console.log('we are actually here')
-        return false;
-}
+function checkboxes_check(list_of_types){
+var checkboxes = document.getElementsByName('check');
+    checkboxes.forEach((checkbox) => {
+    if (list_of_types.indexOf(parseInt(checkbox.id[1], 10)) == -1)
+        checkbox.disabled = true;
+    });
 }
 
 
-function isNeighbourCell(cell_id, lastChecked){
+function is_neighbour_cell(cell_id, lastChecked){
+/**
+*Compares two id of elements and decides if the elements are neighbours on the board. Excluding diagonal neighborhood
+*@param cell_id arg1 id of a cell
+*@param lastChecked arg2 id of last clicked cell
+*/
     if (lastChecked == null)
         return true;
 
@@ -160,12 +181,12 @@ function isNeighbourCell(cell_id, lastChecked){
 function renewBoard(){
     /**
     * Clean the board for a new ship
+    * erases only gray squares
     */
     let letters = ['a','b','c','d','e','f','g','h','i','j'];
 
     for (let i=1; i<11; i++){
          for (let j=0; j<10; j++){
-
             element = document.getElementById('y'+letters[j]+[i])
             if (element.style.backgroundColor=='gray')
                 element.style.backgroundColor = 'lightgray';
@@ -173,14 +194,23 @@ function renewBoard(){
     }
 }
 
+
 function add_ship(ship_obj){
-        setup.list_of_ships.push(ship_obj);
-        ship_obj.set_of_coordinates.forEach((item) => {
+    /**
+    * Adds ship to setup's list of ship to be sent to the model
+    */
+
+    setup.list_of_ships.push(ship_obj);
+    setup.remove_from_stack(ship_obj);
+    checkboxes_check(setup.ship_stack);
+
+    ship_obj.set_of_coordinates.forEach((item) => {
         element= document.getElementById("y"+item.x+item.y);
         element.style.backgroundColor = 'skyblue';
     });
+
         setup.current_ship = new Ship(0);
-        reNewShip();
+//        reNewShip();
         renewBoard();
         noneChecked();
         btn = document.getElementById("confirmShipBtn");
@@ -191,11 +221,17 @@ function add_ship(ship_obj){
 function save_setup(player, setup_obj){
     setup.player = new Player(document.getElementById('name').value);
 
+
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
 
       if (this.readyState == 4 && this.status == 200) {
-//            TODO unblock next button
+        let buttons = document.getElementsByName('next');
+        buttons.forEach((button) => {
+        console.log(button);
+        button.disabled = false;
+        button.className = "next-button";
+        });
       }
       }
     var data = JSON.stringify(setup_obj);
@@ -208,22 +244,14 @@ function save_setup(player, setup_obj){
 
 }
 
-function reNewShip(){
-    setup.shipType = 0;
-    setup.shipCellsSet = 0;
-    setup.shipCellsSet = 0;
-}
 
 function process_ship_type_checkbox_click(element){
-    btn = document.getElementById("confirmShipBtn");
-    btn.disabled=true;
-    btn.className = "inactive-button";
     renewBoard(); // renew board
     setup.selection = new Selection();
 
      if (element.checked==true){
         onlyOneChecked(element);
-        reNewShip(); //renews visual atributes of a ship
+//        reNewShip(); //renews visual atributes of a ship
         setup.current_ship = new Ship(id[1]);
 
      }
@@ -234,7 +262,8 @@ function process_ship_type_checkbox_click(element){
 
 function process_board_cell_click_event(element){
     if (setup.current_ship.is_allowed(id, setup.selection.number_of_selected_cells,
-    setup.selection.lastClickedCellId) & (!is_too_close_to_another_ship(new Coordinates(id[1], parseInt(id.substring(2), 10))))){
+    setup.selection.lastClickedCellId, setup.set_of_types) & (!setup.is_too_close_to_another_ship(new Coordinates(id[1],
+    parseInt(id.substring(2), 10)), setup))){
 
        setup.selection.lastClickedCellId = id;
        setup.selection.number_of_selected_cells++;
@@ -268,5 +297,5 @@ function click(event){
         process_board_cell_click_event(element);
 
 }
-
+checkboxes_check(setup.ship_stack);
 document.addEventListener("click", click);

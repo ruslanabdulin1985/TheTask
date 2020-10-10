@@ -41,13 +41,13 @@
         <input class="for_name" type="text" id="name">
         <div class="spacer"></div>
 
-         <button class="save-button" id="confirmSetupBtn" onclick="save_setup({{data.player}}, setup)">Save</button>
+        <button class="save-button" id="confirmSetupBtn" onclick="save_setup({{data.player}}, setup)">Save</button>
         <!--FIXME-->
 {% if data.player=='1'%}
-<button class="next-button" onclick="location.href = '/setup_player/2'">NEXT</button>
+<button class="inactive-button" name='next' onclick="location.href = '/setup_player/2'" disabled>NEXT</button>
 {%endif%}
 {% if data.player=='2'%}
-<button  class="next-button" onclick="location.href = '/game'">NEXT</button>
+<button  class="inactive-button" name='next' onclick="location.href = '/game'" disabled>NEXT</button>
 {%endif%}
 
 
