@@ -12,10 +12,14 @@
     bg_color("{{"green" if data.result else "red"}}");
  </script>
 
-    <div><label id="result">{{"HIT" if data.result else "MISS"}}</label></div>
-<h1>NEXT PLAYER: {{data.active_player.name}} </h1>
+    <h1 class="centred textcenter"><label id="result">{{"HIT" if data.result else "MISS"}}</label></h1>
+</div>
 
+<div>
+<h1>NEXT PLAYER: {{data.active_player.name}} </h1>
+</div>
     {%- if data.passive_player.has_more_alive_ships() -%}
+
 
 
 <button onclick="location.href = '/board'">I am ready !</button>
@@ -26,6 +30,6 @@
 
     {%- endif -%}
 
-</div>
+
 
 {% endblock %}

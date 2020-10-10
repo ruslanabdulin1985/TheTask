@@ -28,6 +28,23 @@ var checkboxes = document.getElementsByName('check');
     });
 }
 
+function draw_examples(){
+   checkboxes= document.getElementsByName('check');
+     checkboxes.forEach((checkbox) => {
+        if (checkbox.checked == true){
+            number_of_cells = parseInt(checkbox.id[1],10);
+            console.log("c "+number_of_cells)
+            html = "<div>Example:</div> <table><tr>";
+            for (let i=0; i<number_of_cells; i++){
+                html += "<td class='cell'></td>";
+            }
+
+            html += "</tr></table>"
+            document.getElementById("example1").innerHTML=html;
+        }
+    });
+}
+
 
 function is_neighbour_cell(cell_id, lastChecked){
 /**
@@ -77,6 +94,8 @@ function add_ship(ship_obj){
     setup.list_of_ships.push(ship_obj);
     setup.remove_from_stack(ship_obj);
     checkboxes_check(setup.ship_stack);
+    update_stock_ship_counters();
+
 
     ship_obj.set_of_coordinates.forEach((item) => {
         element= document.getElementById("y"+item.x+item.y);
@@ -133,6 +152,7 @@ function process_ship_type_checkbox_click(element){
      else{// unchecked
         setup.current_ship = new Ship(0);
      }
+     draw_examples();
 }
 
 function process_board_cell_click_event(element){
@@ -158,6 +178,17 @@ function process_board_cell_click_event(element){
         }
 }
 
+function update_stock_ship_counters(){
+    /**
+    *Updates numbers of ships available for placement
+    */
+    document.getElementById('carrier_counter').innerHTML = 'x'+ setup.number_of(4);
+    document.getElementById('battleship_counter').innerHTML = 'x'+ setup.number_of(3);
+    document.getElementById('destroyer_counter').innerHTML = 'x'+ setup.number_of(2);
+    document.getElementById('submarine_counter').innerHTML = 'x'+ setup.number_of(1);
+}
+
+
 function click(event){
     /**
     *Handles clicks on different elements of UI
@@ -179,4 +210,5 @@ function click(event){
 
 setup = new Setup();
 checkboxes_check(setup.ship_stack);
+update_stock_ship_counters();
 document.addEventListener("click", click);

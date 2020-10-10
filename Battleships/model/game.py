@@ -47,11 +47,9 @@ class Game:
         for ship in target.ships: # for each ship
             for s_coordinates in ship.set_of_coordinates:  # for each coordinate
                 if s_coordinates.match(coordinates): # if matches to the hit
-                    ship.is_alive=ship.is_dead(target.recieve)  # if hit we need to check i the ship is still allive or not
+                    ship.is_alive=not ship.is_dead(target.recieve)  # if hit we need to check if the ship is still allive or not
                     if not ship.is_alive:
                         for d_coordinates in ship.calculate_dead_coordinates(): # if dead mark surround it with hits
-                            print('Dead coordinates', d_coordinates.x, d_coordinates.y)
-
                             target.recieve.add(d_coordinates)
 
                     return True

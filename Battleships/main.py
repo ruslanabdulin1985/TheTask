@@ -7,8 +7,9 @@ returns View templates
 
 
 from flask import Flask, request, render_template
-from model.games import Games
+
 from model.game import Game
+from model.app import App
 from model.player import Player
 from model.ship import Ship
 from model.coordinates import Coordinates
@@ -22,7 +23,6 @@ p2 = Player("Player 2");
 
 r = Rules(mode=5, opponent='human')
 g = Game(1, p1, p2);
-
 
 
 @app.route("/")
@@ -79,4 +79,4 @@ def status_c(coordinates):
     return render_template('status.html', data={"active_player": g.turn, "passive_player": g.next_player(), "result": result, "e":{'test':'case'}})
 
 if __name__ == '__main__':
-    app.run(debug=False, host= '0.0.0.0', ) #ssl_context='adhoc')
+    app.run(debug=False, host= '127.0.0.1')

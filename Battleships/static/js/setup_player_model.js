@@ -12,9 +12,22 @@ class Setup {
     this.selection = new Selection();
     this.list_of_ships = [];
     this.player = null;
-    this.ship_stack = [1,2];
+    this.ship_stack = [4,3,3,2,2,2,1,1,1,1];
 
 }
+  number_of(s_type){
+  /**
+  *Calculates and returns the number of ships of a certain type in stack to be placed
+  *
+  */
+  let counter = 0;
+   for (let i = 0; i< this.ship_stack.length; i++){
+       if (this.ship_stack[i] == s_type){
+        counter++;
+       }
+   }
+   return counter;
+  }
 
   remove_from_stack(ship){
     /**
@@ -28,7 +41,6 @@ class Setup {
   }
 
 
-//    FIXME
     is_too_close_to_another_ship(coordinates){
     /**
      * Check if current coordinates are next to another ship

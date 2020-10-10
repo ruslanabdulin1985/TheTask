@@ -1,0 +1,4 @@
+Battleships/__pycache__/*
+*.pyc
+Battleships/.idea/*
+

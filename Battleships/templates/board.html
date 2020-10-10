@@ -4,9 +4,9 @@
 {% block title %}Main Menu{% endblock %}
 
 {% block content %}
-
-<h1>{{data.active_player.name}}</h1>
-
+<div style="width=100%">
+<h1 class="centertext">{{data.active_player.name}}</h1>
+</div>
 <!--DRAW PLAYER'S BOARD-->
 <div style="overflow: auto;">
 <table style="float:left;">
@@ -25,7 +25,10 @@
   {% endfor %}
 </table>
 
-<table style="float:left;">
+
+
+
+<table style="float:right;">
   <tr>
     {% for column in ['','a','b','c','d','e','f','g','h','i','j'] %}
           <td class="cell-header"> {{column|upper}}</td>
@@ -49,7 +52,7 @@
 
 
 <!--Draw misses-->
-<div>ships
+<div>
 
 
 <!--  Plyaer Misses-->
@@ -73,7 +76,7 @@
 
 
 <!--Draw ships actual player's ships-->
-<div>ships
+<div>
 {% for ship in data.active_player.ships %}
   {%for coordinates in ship.set_of_coordinates%}
     <script type="text/javascript">

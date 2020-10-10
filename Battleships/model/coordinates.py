@@ -41,31 +41,30 @@ class Coordinates:
         """
         next y coordinate
 
-        :raises Exception when the value is beyond the limit of the board 10x10
         :return: next y value
         """
         if self.y<10:
             return self.y+1
         else:
-            raise Exception('can not go beyond the limit')
+            return None
+            # raise Exception('can not go beyond the limit')
 
     def prev_y(self):
         """
         perv y coordinate
 
-        :raises Exception when the value is beyond the limit of the board 10x10
         :return: prev y value
         """
         if self.y > 1:
             return self.y - 1
         else:
-            raise Exception('can not go beyond the limit')
+            return None
+            # raise Exception('can not go beyond the limit')
 
     def next_x(self):
         """
         next x coordinate
 
-        :raises Exception when the value is beyond the limit of the board 10x10
         :return: next x value
         """
         letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
@@ -74,13 +73,13 @@ class Coordinates:
         if index < 9:
             return letters[index + 1]
         else:
-            raise Exception('can not go beyond the limit')
+            return None
+            # raise Exception('can not go beyond the limit')
 
     def prev_x(self):
         """
         prev x coordinate
 
-        :raises Exception when the value is beyond the limit of the board 10x10
         :return: prev x value
         """
         letters = ['a','b','c','d','e','f','g','h','i','j']
@@ -89,5 +88,6 @@ class Coordinates:
         if index > 0 :
             return letters[index-1]
         else:
-            raise Exception('can not go beyond the limit')
+            return None
+            # raise Exception('can not go beyond the limit')
 

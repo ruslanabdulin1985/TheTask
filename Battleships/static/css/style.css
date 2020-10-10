@@ -1,7 +1,23 @@
 table{
-    border-collapse: collapse; 
-    margin: 20px;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 100px;
+     margin-right: 100px;
     border-style:none;
+}
+
+.centertext{
+text-align:center;
+}
+
+.example{
+    margin:20px;
+    width:400px;
+}
+
+.counter{
+    margin:20px;
 }
 
 .status{
