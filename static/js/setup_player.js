@@ -41,10 +41,18 @@ class Ship{
         this.set_of_coordinates.push(coordinates_obj);
     }
 
-    is_allowed(num){
-        console.log("num"+num);
-        console.log("ss"+this.s_type);
-        if (num == this.s_type)
+    is_allowed(id, number_of_selected_cells, lastClickedCellId) {
+         if ((number_of_selected_cells<this.s_type)&isNeighbourCell(id ,lastClickedCellId)){
+                return true;
+        }
+        else
+        return false;
+    }
+
+    is_fully_located(num){
+    console.log(num)
+    console.log(this.s_type)
+        if (num == this.s_type & this.s_type!=0)
             return true;
         else
            return false;
@@ -74,7 +82,19 @@ function noneChecked() {
     })
 }
 
-
+function is_too_close_to_another_ship(coordinates){
+    for (let i = 0; i<setup.list_of_ships.length; i++){
+        ship_obj = setup.list_of_ships[i];
+        for (let j = 0; j<ship_obj.set_of_coordinates.length; j++){
+            coordinates_obj = ship_obj.set_of_coordinates[j];
+            console.log("c1"+coordinates.x+coordinates.y+"c2"+coordinates_obj.x+coordinates_obj.y);
+            console.log(is_neighbour_coordinates(coordinates, coordinates_obj));
+            if (is_neighbour_coordinates(coordinates, coordinates_obj))
+                return true;
+        }
+    }
+    return false;
+}
 //
 //function set_name(player){
 ///**
@@ -94,6 +114,30 @@ function noneChecked() {
 //    xhttp.open("GET", "/set_name/"+player+"/"+name, true);
 //    xhttp.send();
 //}
+
+function is_neighbour_coordinates(coordintes_foo, coordinates_lee){
+    let letters = ['a','b','c','d','e','f','g','h','i','j'];
+    let foo_letter_index = letters.indexOf(coordintes_foo.x);
+    let lee_letter_index = letters.indexOf(coordinates_lee.x);
+    console.log("i"+foo_letter_index + " " + lee_letter_index);
+    console.log("n"+coordintes_foo.y+ " " + coordinates_lee.y)
+    if ((foo_letter_index == lee_letter_index+1 | foo_letter_index == lee_letter_index-1 | foo_letter_index == lee_letter_index) &
+        (coordintes_foo.y == coordinates_lee.y +1 | coordintes_foo.y == coordinates_lee.y-1 | coordintes_foo.y == coordinates_lee.y))
+        {
+        console.log('we are here')
+        return true;
+        }
+    else if (coordintes_foo.x == coordinates_lee.y & coordintes_foo.x == coordinates_lee.y1){
+        console.log('no, we are here')
+        return true;
+        }
+
+    else{
+     console.log('we are actually here')
+        return false;
+}
+}
+
 
 function isNeighbourCell(cell_id, lastChecked){
     if (lastChecked == null)
@@ -134,9 +178,8 @@ function add_ship(ship_obj){
         ship_obj.set_of_coordinates.forEach((item) => {
         element= document.getElementById("y"+item.x+item.y);
         element.style.backgroundColor = 'skyblue';
-        console.log(element);
-    })
-
+    });
+        setup.current_ship = new Ship(0);
         reNewShip();
         renewBoard();
         noneChecked();
@@ -171,57 +214,59 @@ function reNewShip(){
     setup.shipCellsSet = 0;
 }
 
-function click(event)
-        {/**
-        *Handles clicks on different elements of UI
-        *@param event - event click
-        */
+function process_ship_type_checkbox_click(element){
+    btn = document.getElementById("confirmShipBtn");
+    btn.disabled=true;
+    btn.className = "inactive-button";
+    renewBoard(); // renew board
+    setup.selection = new Selection();
 
-            id = event.target.id;
-            element = document.getElementById(id);
-            //if toggled/untogled checkbox
-            if (id!= null && id.match(/^t[1234]$/)!=null){
-                console.log(element.checked)
-                btn = document.getElementById("confirmShipBtn");
-                btn.disabled=true;
-                btn.className = "inactive-button";
-                 if (element.checked==true){
-                    onlyOneChecked(element);
-                    reNewShip(); //renews visual atributes of a ship
-                    renewBoard(); // renew board
-                    setup.current_ship = new Ship(id[1]);
-                    console.log(id[1]);
-                    setup.selection = new Selection();
-                 }
-                 else{// unchecked
-                    renewBoard(); // renew board
-                    setup.current_ship = new Ship(0);
-                    setup.selection = new Selection();
+     if (element.checked==true){
+        onlyOneChecked(element);
+        reNewShip(); //renews visual atributes of a ship
+        setup.current_ship = new Ship(id[1]);
 
-                 }
+     }
+     else{// unchecked
+        setup.current_ship = new Ship(0);
+     }
+}
 
-            }
+function process_board_cell_click_event(element){
+    if (setup.current_ship.is_allowed(id, setup.selection.number_of_selected_cells,
+    setup.selection.lastClickedCellId) & (!is_too_close_to_another_ship(new Coordinates(id[1], parseInt(id.substring(2), 10))))){
 
-//            if a cell on the board is clicked
-            else if (id!= null && id.match(/(^y[a-j](10)$)|(^y[a-j][0123456789]$)/)!=null){
-                   if (isNeighbourCell(id, setup.selection.lastClickedCellId)){
-                       setup.selection.lastClickedCellId = id;
-                       setup.selection.number_of_selected_cells++;
+       setup.selection.lastClickedCellId = id;
+       setup.selection.number_of_selected_cells++;
+       element.style.backgroundColor = 'gray';
+       setup.current_ship.add_coordinates(new Coordinates(id[1], parseInt(id.substring(2), 10)));
+    }
 
-                       if(setup.selection.number_of_selected_cells<=setup.current_ship.s_type){
-                           element.style.backgroundColor = 'gray';
-                           setup.current_ship.add_coordinates(new Coordinates(id[1], parseInt(id.substring(2), 10)));
-                           if (setup.current_ship.is_allowed(setup.selection.number_of_selected_cells)){
-                                btn = document.getElementById("confirmShipBtn");
-                                btn.disabled=false;
-                                btn.className = "confirm-button";
-                                }
-                           console.log(setup.current_ship.s_type)
-
-                       }
-                   }
-            }
-
+   if (setup.current_ship.is_fully_located(setup.selection.number_of_selected_cells)){
+        btn = document.getElementById("confirmShipBtn");
+        btn.disabled=false;
+        btn.className = "confirm-button";
         }
+}
+
+
+
+function click(event){
+    /**
+    *Handles clicks on different elements of UI
+    *@param event - event click
+    */
+
+    id = event.target.id;
+    element = document.getElementById(id);
+    //if toggled/untogled checkbox
+    if (id!= null && id.match(/^t[1234]$/)!=null)
+        process_ship_type_checkbox_click(element);
+
+    //if a cell on the board is clicked
+    else if (id!= null && id.match(/(^y[a-j](10)$)|(^y[a-j][0123456789]$)/)!=null)
+        process_board_cell_click_event(element);
+
+}
 
 document.addEventListener("click", click);
