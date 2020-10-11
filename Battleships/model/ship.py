@@ -19,32 +19,25 @@ class Ship:
 
         :param s_type: Ship type in range 1-4. this number is the number of cells the ship is taken
         :param set_of_coordinates: A list of cell's coordinates taken by the ship
+
         """
-        self.s_type = s_type
+        self.s_type:int = s_type
         self.set_of_coordinates = set_of_coordinates
-        self.is_alive = True
+        # self.is_alive = True
+        self.hit_points:int = s_type
 
         if len(set_of_coordinates) != s_type:
             raise Exception("Number of coordinates doesn't match ships type")
 
-    def is_dead(self, set_of_hits:list)->bool:
+    def is_dead(self):
         """
         mehtod to check whether the ship has at least one cell not hit by enemies
 
-        :param set_of_hits: set of hits received by the player
         :return: True if at least one cell is alive. Otherwise False
         """
-        counter = 0;
-        for s_coordinates in self.set_of_coordinates:
-            for h_coordinates in set_of_hits:
-                if s_coordinates.match(h_coordinates):
-                    counter += 1
+        return self.hit_points < 1
 
-                    continue
-        if counter == self.s_type:
-            return True
-        else:
-            return False
+
 
     def calculate_dead_coordinates(self)->list:
         """
@@ -67,5 +60,17 @@ class Ship:
                             if not ship_coordinates.match(dead_coordinates):
                                 to_return.append(dead_coordinates)
 
-
         return to_return
+
+
+    def is_hit(self, coordinates:Coordinates):
+        """
+                check if coordinates are lying in the ship
+
+                :return: True if hit otherwise False
+                """
+        for s_coordinates in self.set_of_coordinates:  # for each coordinate
+            if s_coordinates.match(coordinates):  # if matches to the hit
+                return True
+        return False
+

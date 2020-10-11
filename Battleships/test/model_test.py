@@ -5,6 +5,7 @@ from model.coordinates import Coordinates
 from model.ship import Ship
 from model.player import Player
 from model.game import Game
+from model.rules import Rules
 
 class TestModelClasses(unittest.TestCase):
 
@@ -38,13 +39,19 @@ class TestModelClasses(unittest.TestCase):
         coordinates2 = Coordinates("a", 4)
         coordinates3 = Coordinates("a", 2)
 
-        coordinates4 = Coordinates("a", 3)
-        coordinates5 = Coordinates("a", 4)
-        coordinates6 = Coordinates("a", 2)
         ship = Ship(3, [coordinates1, coordinates2, coordinates3])
+        ship.hit_points = 0
+        self.assertEqual(True, ship.is_dead())
 
-        self.assertEqual(True, ship.is_dead([coordinates4, coordinates5, coordinates6]))
-        self.assertEqual(False, ship.is_dead([coordinates4, coordinates5, ]), )
+        ship.hit_points = 1
+        self.assertEqual(False, ship.is_dead())
+
+    def test_is_hit(self):
+        set_of_coordinates= [Coordinates('a', 1), Coordinates('a', 2)]
+        ship = Ship(2, set_of_coordinates)
+
+        self.assertTrue(ship.is_hit(Coordinates('a', 1)))
+        self.assertFalse(ship.is_hit(Coordinates('a', 3)))
 
     def test_ship_dead_coordinates(self, ):
         ship = Ship(1, [Coordinates("b",2)])
@@ -68,15 +75,16 @@ class TestModelClasses(unittest.TestCase):
     @patch('model.ship.Ship')
     def test_player_more_allive_ships(self, MockShip):
         ship = MockShip()
-        ship.is_alive = False
+
         player = Player('p')
         player.ships.append(ship)
 
+        ship.is_dead.return_value = True
         expected = False
         actual = player.has_more_alive_ships()
         self.assertEqual(expected, actual)
 
-        ship.is_alive = True
+        ship.is_dead.return_value = False
         expected = True
         actual = player.has_more_alive_ships()
         self.assertEqual(expected, actual)
@@ -104,10 +112,12 @@ class TestModelClasses(unittest.TestCase):
         self.assertEqual(expected, actual)
 
     def test_game_next_player(self):
+        rules = Rules(mode='standard', opponent='human')
+
         p1 = Player('p1')
         p2 = Player('p2')
 
-        g = Game(1, p1, p2)
+        g = Game(1, p1, p2, rules)
 
         expected = p2
         actual = g.next_player()
@@ -116,22 +126,31 @@ class TestModelClasses(unittest.TestCase):
     @patch('model.ship.Ship')
     def test_game_fire(self, MockShip):
         ship = MockShip()
-        ship.is_alive = True
-        ship.set_of_coordinates= [Coordinates('a', 1), Coordinates('a', 2)]
-
+        ship.is_dead.return_value = False
+        rules = Rules(mode='standard', opponent='human')
 
         player1 = Player('p1')
 
         player2 = Player('p2')
         player2.ships.append(ship)
 
-        g = Game(1, player1, player2)
+        g = Game(1, player1, player2, rules)
+        ship.is_hit.return_value = True
 
         expected = True
-        actual = g.fire(player1,player2,Coordinates('a', 1))
+        actual = g.fire(Coordinates('a', 1))
         self.assertEqual(expected, actual)
 
+        g = Game(1, player1, player2, rules)
+        ship.is_hit.return_value = False
 
+        expected = False
+        actual = g.fire(Coordinates('b', 3))
+        self.assertEqual(expected, actual)
+
+        expected = False
+        actual = g.fire(Coordinates('i', 10))
+        self.assertEqual(expected, actual)
 
 
 if __name__ == '__main__':

@@ -5,6 +5,7 @@ The module imports two Classes of this model: Player to represent players and Co
 coordinates
 """
 
+from model.rules import Rules
 from model.player import Player
 from model.coordinates import Coordinates
 
@@ -18,7 +19,7 @@ class Game:
 
     Game is the main class which is responsible for interactions within the game.
     """
-    def __init__(self, id: int, player1: Player, player2: Player):
+    def __init__(self, id: int, player1: Player, player2: Player, rules:Rules):
         """
         Construnctor of the class
 
@@ -30,35 +31,40 @@ class Game:
         self.player1 = player1
         self.player2 = player2
         self.turn = player1
+        self.rules = rules
 
-    def fire(self, actor: Player, target: Player, coordinates: Coordinates) -> bool:
+    def fire(self, coordinates: Coordinates) -> bool:
         """
         Main method of the Game class. Checks if one player hit another
 
         This method is responsible for handle a situation when one player tries to hit a ship of another,
         the situation is basically main mechanic of the game so the method is crucial
 
-        :param actor: the player who fires
-        :param target: the player who receive the fire
         :param coordinates: target coordinates
         :return: True or False depending if the coordinates has a ship on target player's board
         """
-        target.recieve.add(coordinates)
-        for ship in target.ships: # for each ship
-            for s_coordinates in ship.set_of_coordinates:  # for each coordinate
-                if s_coordinates.match(coordinates): # if matches to the hit
-                    ship.is_alive=not ship.is_dead(target.recieve)  # if hit we need to check if the ship is still allive or not
-                    if not ship.is_alive:
-                        for d_coordinates in ship.calculate_dead_coordinates(): # if dead mark surround it with hits
-                            target.recieve.add(d_coordinates)
+        if self.next_player().is_received_duplicates(coordinates):
+            self.turn = self.next_player()
+            self.turn.score_multiplexor = 1
+            return False  # prevent duplicates
 
-                    self.turn.add_score()
-                    return True
+        else:
+            self.next_player().recieve.add(coordinates)
 
-        self.turn.score_multiplexor = 1;
+        for ship in  self.next_player().get_alive_ships(): # for each  alive ship
+            if ship.is_hit(coordinates):
+                ship.hit_points -= 1
+                self.turn.add_score()
+
+                if ship.is_dead():
+                    for coordinates in ship.calculate_dead_coordinates():
+                        self.next_player().recieve.add(coordinates)
+
+                return True
+
+        self.turn.score_multiplexor = 1
         self.turn = self.next_player()
         return False
-
 
 
     def next_player(self) ->Player:

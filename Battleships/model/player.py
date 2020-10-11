@@ -25,6 +25,11 @@ class Player:
         self.score_multiplexor = 1;
 
     def add_score(self):
+        """
+        ads score to the player's score
+
+        score calculates based on multiplexor. The greater multiplexor the more score is added
+        """
         self.score = self.score + 10*self.score_multiplexor
         self.score_multiplexor += 1
 
@@ -37,12 +42,17 @@ class Player:
         :return: True if at least one ship left alive. Otherwise False
         """
         for ship in self.ships:
-            if ship.is_alive:
+            if not ship.is_dead():
                 return True
 
         return False
 
     def add_dict_of_ships(self, dict_of_ships):
+        """
+            turns a dictionary into a set of ships and adds them to the ship
+
+            ship must be in format {"s_type":"2", "set_of_coordinates" : [{"x":"a", "y":1},{"x":"a", "y":2}]}
+        """
         for ship in dict_of_ships:
             set_of_coordinates = []
             for coordinates in ship['set_of_coordinates']:
@@ -51,3 +61,16 @@ class Player:
 
             new_ship = Ship(int(ship['s_type']), set_of_coordinates)
             self.ships.append(new_ship)
+
+    def get_alive_ships(self):
+        alive_ships = []
+        for ship in self.ships:
+            if ship is not ship.is_dead():
+                alive_ships.append(ship)
+        return alive_ships
+
+    def is_received_duplicates(self, coordinates):
+        for old_received_coordinates in self.recieve:  # check if coordinates duplicate
+            if coordinates.match(old_received_coordinates):
+                return True
+        return False

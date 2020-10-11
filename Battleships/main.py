@@ -15,18 +15,22 @@ from model.ship import Ship
 from model.coordinates import Coordinates
 from model.rules import Rules
 
+
 app = Flask(__name__)
 
-#FIXME
-p1 = Player("Player 1");
-p2 = Player("Player 2");
+def new_game():
+    player1 = Player("Player 1");
+    player2 = Player("Player 2");
+    rules = Rules(mode='standard', opponent='human')
+    new_g = Game(1, player1, player2, rules);
+    return new_g
 
-r = Rules(mode=5, opponent='human')
-g = Game(1, p1, p2);
-
+game = new_game()
 
 @app.route("/")
 def index():
+    global game
+    game = new_game()
     return render_template('index.html')
 
 @app.route("/setup")
@@ -35,34 +39,30 @@ def setup():
 
 @app.route("/setup_player/<number>")
 def setup_player(number):
-    return render_template('setup_player.html', data={"player": number, 'rules':r})
+    return render_template('setup_player.html', data={"player": number, 'rules':game.rules})
 
 @app.route("/board")
 def board():
-    print(g.player1.name)
-    print(g.player2.name)
-    return render_template('board.html', data={"active_player": g.turn, "passive_player": g.next_player()})
+    return render_template('board.html', data={"active_player": game.turn, "passive_player": game.next_player()})
 
 
 @app.route("/game")
 def status():
-    g.turn = g.player1
-    return render_template('game.html', data={"active_player": g.turn})
+    return render_template('game.html', data={"active_player": game.turn})
 
 
 @app.route("/save_setup/<player_num>", methods=['POST'])
 def save_setup(player_num):
     content = request.json
-    print(content)
 
     player = Player(content['player']['name'])
     dict_of_ships = content['list_of_ships']
     player.add_dict_of_ships(dict_of_ships)
 
     if player_num == "1":
-        g.player1 = player
+        game.player1 = player
     if player_num == "2":
-        g.player2 = player
+        game.player2 = player
 
     return {"name": "OK"}
 
@@ -71,12 +71,12 @@ def save_setup(player_num):
 @app.route("/status<coordinates>")
 def status_c(coordinates):
     if len(coordinates)==2:
-        result = g.fire(g.turn, g.next_player(), Coordinates(coordinates[0], int(coordinates[1])))
+        result = game.fire(Coordinates(coordinates[0], int(coordinates[1])))
 
     elif len(coordinates) == 3:
-        result = g.fire(g.turn, g.next_player(), Coordinates(coordinates[0], int(coordinates[1]+coordinates[2])))
+        result = game.fire(Coordinates(coordinates[0], int(coordinates[1]+coordinates[2])))
 
-    return render_template('status.html', data={"active_player": g.turn, "passive_player": g.next_player(), "result": result, "e":{'test':'case'}})
+    return render_template('status.html', data={"active_player": game.turn, "passive_player": game.next_player(), "result": result, "e":{'test':'case'}})
 
 if __name__ == '__main__':
     app.run(debug=False, host= '127.0.0.1')

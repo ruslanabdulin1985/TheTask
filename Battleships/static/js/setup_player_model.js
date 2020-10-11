@@ -12,9 +12,31 @@ class Setup {
     this.selection = new Selection();
     this.list_of_ships = [];
     this.player = null;
-    this.ship_stack = [4,3,3,2,2,2,1,1,1,1];
+    console.log('tttt');
 
 }
+
+  get_rules(){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+
+      if (this.readyState == 4 && this.status == 200) {
+        let buttons = document.getElementsByName('next');
+        buttons.forEach((button) => {
+        console.log(button);
+        button.disabled = false;
+        button.className = "next-button";
+        });
+      }
+      }
+
+    xhttp.open("POST", "/save_setup/"+player, true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+
+    xhttp.send(data);
+
+  }
+
   number_of(s_type){
   /**
   *Calculates and returns the number of ships of a certain type in stack to be placed
