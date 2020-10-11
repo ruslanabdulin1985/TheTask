@@ -130,6 +130,8 @@ class Ship{
     *@param number_of_selected_cells arg2 how many sells are currently selected
     *@param lastClickedCellId arg3 id of the cell was previously clicked
     */
+    if (lastClickedCellId == null)
+        return true;
 
          if ((number_of_selected_cells<this.s_type)&is_neighbour_cell(id ,lastClickedCellId)){
                 return true;

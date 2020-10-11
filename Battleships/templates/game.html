@@ -7,7 +7,12 @@
 
 
 <!--<div><label id="result">{{"HIT" if data.result else "MISS"}}</label></div>&ndash;&gt;-->
-<h1>NEXT PLAYER: {{data.active_player.name}} </h1>
+<div class="centred">
+<h3>NEXT PLAYER:</h3><h1> {{data.active_player.name}}</h1><h3>SCORE: </h3> <h1>{{data.active_player.score}}</h1>
+
+<button class="next-button" onclick="location.href = '/board'">I am ready !</button>
+</div>
+
 
 <button onclick="location.href = '/board'">I am ready </button>
 

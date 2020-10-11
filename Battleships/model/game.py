@@ -52,8 +52,10 @@ class Game:
                         for d_coordinates in ship.calculate_dead_coordinates(): # if dead mark surround it with hits
                             target.recieve.add(d_coordinates)
 
+                    self.turn.add_score()
                     return True
 
+        self.turn.score_multiplexor = 1;
         self.turn = self.next_player()
         return False
 

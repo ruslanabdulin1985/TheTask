@@ -5,11 +5,13 @@
 
 {% block content %}
 <div style="width=100%">
-<h1 class="centertext">{{data.active_player.name}}</h1>
+<h1 class="centertext">Player: {{data.active_player.name}}</h1>
+    <h3 class="centertext">Score: {{data.active_player.score}}</h3>
 </div>
 <!--DRAW PLAYER'S BOARD-->
 <div style="overflow: auto;">
 <table style="float:left;">
+    <tr><td colspan="11" style="border-style: none; text-align:center;">your ships are located on this board</td></tr>
   <tr>
     {% for column in ['','a','b','c','d','e','f','g','h','i','j'] %}
           <td class="cell-header">{{column|upper}}</td>
@@ -26,9 +28,8 @@
 </table>
 
 
-
-
 <table style="float:right;">
+    <tr><td colspan="11" style="border-style: none; text-align:center;">your opponents ships are located on this board</td></tr>
   <tr>
     {% for column in ['','a','b','c','d','e','f','g','h','i','j'] %}
           <td class="cell-header"> {{column|upper}}</td>

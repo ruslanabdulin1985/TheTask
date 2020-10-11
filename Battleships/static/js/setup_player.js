@@ -58,10 +58,22 @@ function is_neighbour_cell(cell_id, lastChecked){
     let letters = ['a','b','c','d','e','f','g','h','i','j'];
     let lastletterIndex = (letters.indexOf(lastChecked[1]));
     let thisletterIndex = (letters.indexOf(cell_id[1]));
-    let thisNumberInt = parseInt(cell_id[2], 10);
-    let lastNumberInt = parseInt(lastChecked[2], 10);
+    let thisNumberInt;
+    let lastNumberInt;
+    if (cell_id.length>3)
+        thisNumberInt = 10;
+    else
+         thisNumberInt = parseInt(cell_id[2], 10);
+
+    if (lastChecked.length>3)
+         lastNumberInt = 10;
+    else
+         lastNumberInt = parseInt(lastChecked[2], 10);
+
+
     if ((lastletterIndex == thisletterIndex+1|| lastletterIndex == thisletterIndex-1)&lastNumberInt == thisNumberInt)
         return true;
+
     else if ((lastNumberInt == thisNumberInt+1|| lastNumberInt == thisNumberInt-1)&lastletterIndex == thisletterIndex)
         return true;
     else
@@ -160,6 +172,8 @@ function process_board_cell_click_event(element){
     * execute actions when a cell on the board is clicked
     * param element arg1 clicked element
     */
+    if (setup.current_ship==null)
+        return false;
 
     if (setup.current_ship.is_allowed(id, setup.selection.number_of_selected_cells,
     setup.selection.lastClickedCellId, setup.set_of_types) & (!setup.is_too_close_to_another_ship(new Coordinates(id[1],
@@ -194,8 +208,14 @@ function click(event){
     *Handles clicks on different elements of UI
     *@param event - event click
     */
-
     id = event.target.id;
+
+//    if (setup.selection.lastClickedCellId == null){
+//        lastClickedCellId = id;
+//        return null;
+//    }
+
+
     element = document.getElementById(id);
     //if toggled/untogled checkbox
     if (id!= null && id.match(/^t[1234]$/)!=null)

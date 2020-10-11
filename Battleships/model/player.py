@@ -22,6 +22,11 @@ class Player:
         self.recieve = set() # recieved shots
         self.ships = [] # list of ships
         self.score = 0
+        self.score_multiplexor = 1;
+
+    def add_score(self):
+        self.score = self.score + 10*self.score_multiplexor
+        self.score_multiplexor += 1
 
     def has_more_alive_ships(self) ->bool:
         """
