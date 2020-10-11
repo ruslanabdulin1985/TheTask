@@ -1,0 +1,15 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Main Menu{% endblock %}
+
+{% block content %}
+
+
+<!--<div><label id="result">{{"HIT" if data.result else "MISS"}}</label></div>&ndash;&gt;-->
+<div class="centred">
+    <h2>Best Player : <h1> {{data.best_player.name}} </h1>  Score : <h1> {{data.best_player.score}} </h1></h2>
+</div>
+
+
+{% endblock %}

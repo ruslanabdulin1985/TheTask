@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Main Menu{% endblock %}
+
+{% block content %}
+
+<div class = 'centred' style="text-align:center" id="staus-block" class="status">
+    <p><h1>RULES</h1>
+
+    The Battleships game is a guessing game for two players.
+
+    Both players use the same computer. When a player sees his/her name on the screen he/she may click next button
+    When a player sees his/her opponent's name on the scree he/she must pass the controll of the computer to another
+    player and do not look at the screen until it is his/her turn again.
+
+
+    <h2>How to start</h2>
+
+    Each player starts by secretly placing
+    his/her ships on the board. The set of ships is the following:<p>
+
+    1 x 4 cells<p>
+    2 x 3 cells<p>
+    3 x 2 cells<p>
+    4 x 1 cells<p>
+
+    Each user also states his/her name. When it is done the next button becomes active
+
+    <h2>How to play</h2>
+
+    Both players see their ships on the left (theirs) board
+    Both players see guessed opponent's ships on the right (theirs) board
+    Both players guesses the location of opponent's ships by clicking on the right (opponent's) board, one cell at a time
+    If a player guessed he sees green stripe saying 'HIT' and continues guessing.
+    If a player missed he sees red stripe saying 'MISS' and he MUST pass the computer to another player
+
+    <h2>How to win</h2>
+    When one of the players found all the ships of another player the game stops.
+    The one who found all the opponent's ships wins the game.
+
+    <h2>Scores</h2>
+
+    For each hit a player receives scores. The biggest series of hits a player does the more score he gets.<p>
+    1 hit = 10 points<p>
+    2 hits in a row = 20 points<p>
+    3 hits in a row = 30 points<p>
+    ...<p>
+
+    <h2>Highscore</h2>
+
+    After a game a highscore can be seen on Highscore screen
+
+    <h2>About the game</h2>
+
+    The game is created by Ruslan Abdulin as a task for an interview in Softwerk Company, autumn 2020
+    All the images are drawn by the author and can be used according to MIT license
+
+    </p>
+
+</div>
+
+<div class="spacer"></div>
+
+
+
+
+{% endblock %}

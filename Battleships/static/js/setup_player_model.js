@@ -1,6 +1,6 @@
 class Setup {
 /**
-    * Setup represents a set of settings before a game starts
+    * Setup represents a set of settings to be sent to the modele before the game starts
     *
     */
   constructor() {
@@ -12,30 +12,23 @@ class Setup {
     this.selection = new Selection();
     this.list_of_ships = [];
     this.player = null;
-    console.log('tttt');
-
+    this.ship_stack = [4,3,3,2,2,2,1,1,1,1];
+//    this.ship_stack = [2,2,1];
+//    this.ship_stack = [1];
 }
 
-  get_rules(){
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+  check_data(){
 
-      if (this.readyState == 4 && this.status == 200) {
-        let buttons = document.getElementsByName('next');
-        buttons.forEach((button) => {
-        console.log(button);
-        button.disabled = false;
-        button.className = "next-button";
-        });
+   if (this.ship_stack.length>0)
+      console.log('disabled');
+   else
+
+      {
+      console.log('allowed');
+      document.getElementById('confirmSetupBtn').className = 'next-button';
+      document.getElementById('confirmSetupBtn').disabled=false;
       }
-      }
-
-    xhttp.open("POST", "/save_setup/"+player, true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
-
-    xhttp.send(data);
-
-  }
+   }
 
   number_of(s_type){
   /**

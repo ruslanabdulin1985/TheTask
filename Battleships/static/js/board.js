@@ -12,7 +12,6 @@ function draw_player_misses(coordinates){
 * @param coordinates arg1 coordinates{x,y} of a miss to draw
 */
  let element = document.getElementById (`o${coordinates.x}${coordinates.y}`);
-    console.log("hide"+`o${coordinates.x}${coordinates.y}`);
     element.style.backgroundColor = 'white';
 }
 
@@ -23,7 +22,6 @@ function draw_opponent_misses(coordinates){
 * @param coordinates arg1 coordinates{x,y} of a miss to draw
 */
  let element = document.getElementById (`y${coordinates.x}${coordinates.y}`);
-    console.log("hide"+`y${coordinates.x}${coordinates.y}`);
     element.style.backgroundColor = 'white';
 }
 

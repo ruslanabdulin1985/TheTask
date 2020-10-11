@@ -6,16 +6,9 @@ from model.ship import Ship
 from model.player import Player
 from model.game import Game
 from model.rules import Rules
+from model.highscore import HighScore
 
 class TestModelClasses(unittest.TestCase):
-
-    @patch('model.ship.Ship')
-    def test_is_dead(self, MockShip):
-        ship = MockShip()
-        ship.is_dead.return_value = False;
-        result = ship.is_dead()
-
-        self.assertEqual(result, False)
 
     def test_coordinates(self):
         c1 = Coordinates('a', 1)
@@ -31,7 +24,6 @@ class TestModelClasses(unittest.TestCase):
         self.assertEqual(2, c1.next_y())
         self.assertEqual('a', c3.prev_x())
         self.assertEqual(1, c4.prev_y())
-    #
 
 
     def test_ship_is_dead(self, ):
@@ -152,6 +144,43 @@ class TestModelClasses(unittest.TestCase):
         actual = g.fire(Coordinates('i', 10))
         self.assertEqual(expected, actual)
 
+    @patch('model.ship.Ship')
+    def test_is_game_over(self, MockShip):
+        ship = MockShip()
+        ship.is_dead.return_value = False
+        player1 = Player('p1')
+
+        player2 = Player('p2')
+        rules = Rules(mode='standard', opponent='human')
+
+        g = Game(1, player1, player2, rules)
+        self.assertTrue(g.is_game_over())
+
+        player1.ships.append(ship)
+        g = Game(1, player1, player2, rules)
+        self.assertTrue(g.is_game_over())
+
+        player2.ships.append(ship)
+        g = Game(1, player1, player2, rules)
+        self.assertFalse(g.is_game_over())
+
+
+    def test_high_score(self):
+        high_score=HighScore()
+        player_first = Player('first')
+        player_first.score = 100;
+        player_second = Player('second')
+        player_second.score = 50;
+
+        high_score.add_player(player_second)
+        expected = player_second
+        actual = high_score.best_player
+        self.assertEqual(expected, actual)
+
+        high_score.add_player(player_first)
+        expected = player_first
+        actual = high_score.best_player
+        self.assertEqual(expected, actual)
 
 if __name__ == '__main__':
     unittest.main()

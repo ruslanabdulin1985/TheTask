@@ -20,7 +20,13 @@ function noneChecked() {
     })
 }
 
+
+
 function checkboxes_check(list_of_types){
+   /**
+     * Disables all the checkboxes for ships not in ship_stock so they couldn't be placed on a board
+     * @param list_of_types arg1 list ship types in stock
+     */
 var checkboxes = document.getElementsByName('check');
     checkboxes.forEach((checkbox) => {
     if (list_of_types.indexOf(parseInt(checkbox.id[1], 10)) == -1)
@@ -29,17 +35,21 @@ var checkboxes = document.getElementsByName('check');
 }
 
 function draw_examples(){
+    /**
+     * Shows an example how to place a ship on a board
+     *
+     */
    checkboxes= document.getElementsByName('check');
      checkboxes.forEach((checkbox) => {
         if (checkbox.checked == true){
             number_of_cells = parseInt(checkbox.id[1],10);
             console.log("c "+number_of_cells)
-            html = "<div>Example:</div> <table><tr>";
+            html = "<div>Example:</div> <table>";
             for (let i=0; i<number_of_cells; i++){
-                html += "<td class='cell'></td>";
+                html += "<tr><td class='cell' style='background-color:lightblue'></td></tr>";
             }
 
-            html += "</tr></table>"
+            html += "</table>"
             document.getElementById("example1").innerHTML=html;
         }
     });
@@ -83,7 +93,7 @@ function is_neighbour_cell(cell_id, lastChecked){
 
 function renewBoard(){
     /**
-    * Clean the board for a new ship
+    * Clean the board selection marked for a new ship
     * erases only gray squares
     */
     let letters = ['a','b','c','d','e','f','g','h','i','j'];
@@ -123,6 +133,10 @@ function add_ship(ship_obj){
 }
 
 function save_setup(player, setup_obj){
+     /**
+    * Sends the setup to the model
+    */
+
     setup.player = new Player(document.getElementById('name').value);
 
     var xhttp = new XMLHttpRequest();
@@ -131,9 +145,8 @@ function save_setup(player, setup_obj){
       if (this.readyState == 4 && this.status == 200) {
         let buttons = document.getElementsByName('next');
         buttons.forEach((button) => {
-        console.log(button);
-        button.disabled = false;
-        button.className = "next-button";
+            button.className = 'next-button';
+            button.disabled = false;
         });
       }
       }
@@ -202,19 +215,12 @@ function update_stock_ship_counters(){
     document.getElementById('submarine_counter').innerHTML = 'x'+ setup.number_of(1);
 }
 
-
 function click(event){
     /**
     *Handles clicks on different elements of UI
     *@param event - event click
     */
     id = event.target.id;
-
-//    if (setup.selection.lastClickedCellId == null){
-//        lastClickedCellId = id;
-//        return null;
-//    }
-
 
     element = document.getElementById(id);
     //if toggled/untogled checkbox
@@ -226,7 +232,6 @@ function click(event){
         process_board_cell_click_event(element);
 
 }
-
 
 setup = new Setup();
 checkboxes_check(setup.ship_stack);

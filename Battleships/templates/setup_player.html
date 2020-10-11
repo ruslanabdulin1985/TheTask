@@ -24,32 +24,36 @@
   {% endfor %}
 </table>
     </div>
-    <div class="grid-item middleItem">
+    <div class="grid-item middleItem" style="text-align:left">
+        <p>SHIP STOCK</p>
         <p><input type="checkbox" name="check" id="t4"> Carrier<label class="counter" id="carrier_counter"></label></p>
 <p><input type="checkbox" name="check" id="t3"> Battleship<label class="counter" id="battleship_counter"></label></p>
 <p><input type="checkbox" name="check" id="t2"> Destroyer<label class="counter" id="destroyer_counter"></label></p>
 <p><input type="checkbox" name="check" id="t1"> Submarine<label class="counter" id="submarine_counter"></label></p>
 
-<button class="inactive-button" id="confirmShipBtn" onclick="add_ship(setup.current_ship)" disabled>Confirm</button>
-    <div  class='example' id="example1">Example:</div>
+<button class="inactive-button" id="confirmShipBtn" onclick="add_ship(setup.current_ship), setup.check_data()" disabled>Confirm</button>
+    <div id="example1">Example:</div>
 <!--    <div id="example2">e2</div>-->
 
     </div>
 
     <div class="grid-item">
         <div class="spacer"></div>
-        <p><label class="for_name">Player {{data.player}} State your name</label></p>
-        <input class="for_name" type="text" id="name">
+        <div style="text-align:left">
+        <p><label class="for_name" >Player {{data.player}} State your name</label></p>
+        <input class="for_name" type="text" id="name" value="player {{data.player}}">
+        </div>
         <div class="spacer"></div>
 
-        <button class="save-button" id="confirmSetupBtn" onclick="save_setup({{data.player}}, setup)">Save</button>
-        <!--FIXME-->
+
+         <button class="inactive-button" id="confirmSetupBtn" onclick="save_setup({{data.player}}, setup)">SAVE</button>
+
 {% if data.player=='1'%}
-<button class="inactive-button" name='next' onclick="location.href = '/setup_player/2'" disabled>NEXT</button>
+         <button class="inactive-button" name='next' onclick="location.href = '/setup_player/2'" disabled>NEXT</button>
 {%endif%}
 {% if data.player=='2'%}
-<button  class="inactive-button" name='next' onclick="location.href = '/game'" disabled>NEXT</button>
-{%endif%}
+        <button class="inactive-button" name='next' onclick="location.href = '/game'" disabled>NEXT</button>
+        {%endif%}
 
 
     </div>

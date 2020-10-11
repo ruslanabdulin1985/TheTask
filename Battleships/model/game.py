@@ -67,9 +67,18 @@ class Game:
         return False
 
 
+    def is_game_over(self):
+        """
+        :return: True if at least one player has no ships left, otherwise False
+        """
+        if not self.player1.has_more_alive_ships() or not self.player2.has_more_alive_ships():
+            return True
+        return False
+
+
     def next_player(self) ->Player:
         """
-        Whose turn is next
+        Who's turn is next
 
         :return: Player who will be making move next
         """
