@@ -20,11 +20,13 @@ class Setup {
   check_data(){
 
    if (this.ship_stack.length>0)
-      console.log('disabled');
+        {
+        }
+//      console.log('disabled');
    else
 
       {
-      console.log('allowed');
+//      console.log('allowed');
       document.getElementById('confirmSetupBtn').className = 'next-button';
       document.getElementById('confirmSetupBtn').disabled=false;
       }

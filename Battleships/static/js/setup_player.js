@@ -43,7 +43,7 @@ function draw_examples(){
      checkboxes.forEach((checkbox) => {
         if (checkbox.checked == true){
             number_of_cells = parseInt(checkbox.id[1],10);
-            console.log("c "+number_of_cells)
+//            console.log("c "+number_of_cells)
             html = "<div>Example:</div> <table>";
             for (let i=0; i<number_of_cells; i++){
                 html += "<tr><td class='cell' style='background-color:lightblue'></td></tr>";
@@ -155,7 +155,7 @@ function save_setup(player, setup_obj){
     xhttp.open("POST", "/save_setup/"+player, true);
     xhttp.setRequestHeader("Content-Type", "application/json");
 
-    console.log(setup.current_ship)
+//    console.log(setup.current_ship)
     xhttp.send(data);
 
 }

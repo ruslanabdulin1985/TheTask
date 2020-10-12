@@ -110,7 +110,8 @@ def save_setup(player_num):
     if player_num == "2":
         game.player2 = player
 
-    return {"name": "OK"}
+    # return {"name": "OK"}  causes bug on some computers
+    return 'text'
 
 
 
@@ -126,9 +127,9 @@ def status_c(coordinates):
 
     elif len(coordinates) == 3:
         result = game.fire(Coordinates(coordinates[0], int(coordinates[1]+coordinates[2])))
-    print("game_over_check")
+    # print("game_over_check")
     if game.is_game_over():
-        print("game_over")
+        # print("game_over")
         highscore.add_player(game.turn)
         highscore.add_player(game.next_player())
     return render_template('status.html', data={"active_player": game.turn, "passive_player": game.next_player(), "result": result})
